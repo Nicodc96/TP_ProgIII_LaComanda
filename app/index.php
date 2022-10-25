@@ -35,12 +35,17 @@ $app->group('/usuarios', function (RouteCollectorProxy $group) {
     $group->get('[/]', \UsuarioController::class . ':TraerTodos');
     $group->get('/{usuario}', \UsuarioController::class . ':TraerUno');
     $group->post('[/]', \UsuarioController::class . ':CargarUno');
+    //$group->delete('/{usuarioId}', \UsuarioController::class . ':BorrarUno');
   });
 
 $app->get('[/]', function (Request $request, Response $response) {    
     $response->getBody()->write("Slim Framework 4 PHP");
     return $response;
+});
 
+$app->delete("/usuarios/{usuarioId}", function (Request $request, Response $response) {
+  $response = \UsuarioController::class . ":BorrarUno";
+  return $response;
 });
 
 $app->run();
