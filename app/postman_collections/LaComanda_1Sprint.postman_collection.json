@@ -1,0 +1,265 @@
+{
+	"info": {
+		"_postman_id": "af69fbc3-94f9-4c58-83d6-0af8a6fe8915",
+		"name": "TP_LaComanda",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11641824"
+	},
+	"item": [
+		{
+			"name": "Alta Usuario",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "nombre_usuario",
+							"value": "Mozo001",
+							"type": "text"
+						},
+						{
+							"key": "clave",
+							"value": "5jKfLs5Gc$",
+							"type": "text"
+						},
+						{
+							"key": "esAdmin",
+							"value": "false",
+							"type": "text"
+						},
+						{
+							"key": "tipo_usuario",
+							"value": "mozo",
+							"type": "text"
+						},
+						{
+							"key": "estado",
+							"value": "activo",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/tp_comanda/app/usuarios",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"tp_comanda",
+						"app",
+						"usuarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Usuarios",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/tp_comanda/app/usuarios",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"tp_comanda",
+						"app",
+						"usuarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Alta Producto",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "nombre",
+							"value": "Milanesa a caballo",
+							"type": "text"
+						},
+						{
+							"key": "precio",
+							"value": "525.99",
+							"type": "text"
+						},
+						{
+							"key": "tipo",
+							"value": "Comida",
+							"type": "text"
+						},
+						{
+							"key": "stock",
+							"value": "300",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/tp_comanda/app/productos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"tp_comanda",
+						"app",
+						"productos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Productos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/tp_comanda/app/productos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"tp_comanda",
+						"app",
+						"productos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Alta Mesa",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "codigo_mesa",
+							"value": "M0001",
+							"type": "text"
+						},
+						{
+							"key": "id_empleado",
+							"value": "4",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/tp_comanda/app/mesas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"tp_comanda",
+						"app",
+						"mesas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Mesas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/tp_comanda/app/mesas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"tp_comanda",
+						"app",
+						"mesas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Alta Pedido",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "id_mesa",
+							"value": "M0001",
+							"type": "text"
+						},
+						{
+							"key": "nombre_cliente",
+							"value": "Nicolas Díaz",
+							"type": "text"
+						},
+						{
+							"key": "costo_pedido",
+							"value": "1235",
+							"type": "text"
+						},
+						{
+							"key": "foto_pedido",
+							"type": "file",
+							"src": "/D:/Users/Nicolas/Downloads/milanesa_a_caballo_receta_de_cocina.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/tp_comanda/app/pedidos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"tp_comanda",
+						"app",
+						"pedidos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Pedidos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/tp_comanda/app/pedidos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"tp_comanda",
+						"app",
+						"pedidos"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
