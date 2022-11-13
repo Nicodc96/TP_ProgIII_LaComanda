@@ -46,32 +46,20 @@ $app->addBodyParsingMiddleware();
 
 // Rutas
 $app->group('/usuarios', function (RouteCollectorProxy $group) {
-  $group->get("[/]", \UsuarioController::class . ':TraerTodos');
-  $group->get('/{usuarioId}', \UsuarioController::class . ':TraerUno');
-  $group->post('[/]', \UsuarioController::class . ':CargarUno');
-});
-
-$app->group('/productos', function (RouteCollectorProxy $group) {
-  $group->get("[/]", \ProductoController::class . ':TraerTodos');
-  $group->get('/{productoId}', \ProductoController::class . ':TraerUno');
-  $group->post('[/]', \ProductoController::class . ':CargarUno');
-});
-
-$app->group('/mesas', function (RouteCollectorProxy $group) {
-  $group->get("[/]", \MesaController::class . ':TraerTodos');
-  $group->get('/{mesaId}', \MesaController::class . ':TraerUno');
-  $group->post('[/]', \MesaController::class . ':CargarUno');
-});
-
-$app->group('/pedidos', function (RouteCollectorProxy $group) {
-  $group->get("[/]", \PedidoController::class . ':TraerTodos');
-  $group->get('/{pedidoId}', \PedidoController::class . ':TraerUno');
-  $group->post('[/]', \PedidoController::class . ':CargarUno');
-});
+    $group->get('[/]', \UsuarioController::class . ':TraerTodos');
+    $group->get('/{usuario}', \UsuarioController::class . ':TraerUno');
+    $group->post('[/]', \UsuarioController::class . ':CargarUno');
+    $group->delete('/{usuarioId}', \UsuarioController::class . ':BorrarUno');
+  });
 
 $app->get('[/]', function (Request $request, Response $response) {    
     $response->getBody()->write("Trabajo Practico: 'La comanda' | Diseñado por: Lautaro N. Díaz, 3°D 2C 2002");
     return $response;
+});
+
+$app->delete("/usuarios/{usuarioId}", function (Request $request, Response $response) {
+  $response = \UsuarioController::class . ":BorrarUno";
+  return $response;
 });
 
 $app->run();
