@@ -45,8 +45,10 @@ class Pedido{
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pedido');
     }
 
-    public static function mostrarPedidosTabla(){
-        $arrayPedidos = self::obtenerTodos();
+    public static function mostrarPedidosTabla($arrayPedidos = array()){
+        if (count($arrayPedidos) == 0){
+            $arrayPedidos = self::obtenerTodos();
+        }
         $mensaje = "Lista vacia.";
         if (is_array($arrayPedidos) && count($arrayPedidos) > 0){
             $mensaje = "<h3 align='center'> Lista de Pedidos </h3>";
@@ -100,6 +102,53 @@ class Pedido{
         return $consulta->fetchObject('Pedido');
     }
 
+    public static function obtenerTiempoMaximoPedidoPorCodigoMesa($pedido_id, $codigo_mesa){
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT MAX(o.tiempo_estimado) AS tiempo_estimado
+        FROM ordenes AS o
+        LEFT JOIN pedidos AS p ON o.id_pedido = :id_pedido
+        LEFT JOIN mesas AS m ON p.mesa_id = m.id
+        WHERE m.codigo_mesa = :codigo_mesa");
+        $consulta->bindValue(":id_pedido", $pedido_id, PDO::PARAM_INT);
+        $consulta->bindValue(":codigo_mesa", $codigo_mesa, PDO::PARAM_STR);
+        $consulta->execute();
+
+        return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function obtenerPedidosConTiempo(){
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT p.*, MAX(o.tiempo_estimado) AS tiempo_estimado
+        FROM ordenes AS o
+        LEFT JOIN pedidos AS p ON o.id_pedido = p.id
+        GROUP BY p.id
+        ORDER BY tiempo_estimado DESC;");
+        $consulta->execute();
+
+        return $consulta->fetchAll(PDO::FETCH_CLASS, "stdClass");
+    }
+
+    public static function obtenerPedidosPorEstado($estado_pedido){
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pedidos WHERE estado_pedido = :estado_pedido");
+        $consulta->bindValue(":estado_pedido", $estado_pedido, PDO::PARAM_STR);
+        $consulta->execute();
+
+        return $consulta->fetchAll(PDO::FETCH_ASSOC, "Pedido");
+    }
+
+    public static function obtenerPedidoPorEstadoYMesaId($estado_pedido, $mesa_id){
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pedidos 
+        WHERE estado_pedido = :estado_pedido AND mesa_id = :mesa_id");
+        $consulta->bindValue(":estado_pedido", $estado_pedido, PDO::PARAM_STR);
+        $consulta->bindValue(":mesa_id", $mesa_id, PDO::PARAM_INT);
+        $consulta->execute();
+
+        return $consulta->fetchObject("Pedido");
+    }
+
+
     public static function modificarPedido($pedidoParam){
         $objAccesoDato = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDato->prepararConsulta("UPDATE pedidos SET estado_pedido = :estado, costo_pedido = :costo WHERE id = :id");
@@ -140,6 +189,5 @@ class Pedido{
 
         return $consulta->rowCount() > 0;
     }
-    // Agregar modelo ordenes en 2do Sprint
 }
 ?>

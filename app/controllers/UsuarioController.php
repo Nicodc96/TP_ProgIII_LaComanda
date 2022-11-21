@@ -74,4 +74,32 @@ class UsuarioController extends Usuario implements IApiUsable{
         return $response
           ->withHeader('Content-Type', 'application/json');
     }
+
+    public function Login($request, $response, $args){
+      
+      $params = $request->getParsedBody();
+
+      if (isset($params["username"]) && isset($params["clave"])) {
+          $username = $params["username"];
+          $clave = $params["clave"];
+          $usuario = Usuario::obtenerUsuarioSegunUsername($username);
+
+          if ($usuario != null && ($usuario->nombre_usuario == $username && $usuario->clave == $clave)) {
+              $payload = json_encode(array("mensaje" => "Login exitoso!"));
+          } else {
+              $payload = json_encode(array("mensaje" => "No se ha podido logear."));
+          }
+      }
+      $response->getBody()->write($payload);
+      return $response
+        ->withHeader('Content-Type', 'application/json');
+  }
+
+  public static function obtenerInfoToken($request){
+    $header = $request->getHeader("Authorization");
+    $token = trim(str_replace("Bearer", "", $header[0]));
+    $usuario = JWTAuth::getInfoToken($token);
+    
+    return $usuario;
+  }
 }

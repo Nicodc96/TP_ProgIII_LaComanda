@@ -2,6 +2,9 @@
 require_once "./models/Pedido.php";
 require_once "./models/UploadManager.php";
 require_once "./interfaces/IApiUsable.php";
+require_once "./models/Orden.php";
+require_once "./models/Mesa.php";
+require_once "./controllers/UsuarioController.php";
 
 class PedidoController extends Pedido implements IApiUsable{
     public function CargarUno($request, $response, $args){
@@ -13,7 +16,7 @@ class PedidoController extends Pedido implements IApiUsable{
             "Pendiente",
             $parametros["nombre_cliente"],
             $parametros["costo_pedido"],
-            "" // Cambiar en 2do Sprint (calcular segun precios de productos)
+            ""
         );
         $pedido_id = Pedido::insertarPedidoDB($pedido);
         if ($pedido_id > 0){
@@ -39,6 +42,7 @@ class PedidoController extends Pedido implements IApiUsable{
         return $response
           ->withHeader('Content-Type', 'application/json');
     }
+
     public function TraerTodos($request, $response, $args){
         $listaPedidos = Pedido::obtenerTodos();
         $payload = json_encode(array("lista_de_pedidos" => $listaPedidos));
@@ -47,7 +51,29 @@ class PedidoController extends Pedido implements IApiUsable{
         return $response
           ->withHeader('Content-Type', 'application/json');
     }
-    // Agregar 'TraerPorMesa' y 'TraerPorEmpleadoId' en 2do Sprint
+
+    public function TraerSegunArea($request, $response, $args){
+        $tipo_usuario = UsuarioController::obtenerInfoToken($request)->tipo_usuario;
+        
+        $ordenes = Orden::obtenerOrdenesPorTipoUsuario($tipo_usuario);
+        echo Orden::mostrarOrdenesTabla($ordenes);
+        $payload = json_encode(array("lista_de_ordenes_del_pedido" => $ordenes));
+
+        $response->getBody()->write($payload);
+        return $response
+          ->withHeader('Content-Type', 'application/json');
+    }
+
+    public function TraerPedidosTiempo($request, $response, $args){
+        $pedidos = Pedido::obtenerPedidosConTiempo();
+        echo Pedido::mostrarPedidosTabla($pedidos);
+
+        $payload = json_encode(array("lista_pedidos" => $pedidos));
+        $response->getBody()->write($payload);
+        return $response
+          ->withHeader('Content-Type', 'application/json');
+    }
+
     public function BorrarUno($request, $response, $args){
         $parametros = $request->getParsedBody();
 
@@ -60,6 +86,7 @@ class PedidoController extends Pedido implements IApiUsable{
         return $response
           ->withHeader('Content-Type', 'application/json');
     }
+
 	public function ModificarUno($request, $response, $args){
         $parametros = $request->getParsedBody();
 
@@ -67,9 +94,10 @@ class PedidoController extends Pedido implements IApiUsable{
         $mensaje = "No se ha podido modificar el pedido";
         if ($pedido){
             $pedido->estado_pedido = $parametros["estado_pedido"];
-            $pedido->costo_pedido = $parametros["costo_pedido"]; // Modificar en 2do Sprint
+            $pedido->costo_pedido = Orden::obtenerPrecioDeOrdenesPorPedido($pedido->id);
             if (Pedido::modificarPedido($pedido)){
-              $mensaje = "Mesa modificado con exito";
+              $mensaje = "Pedido modificado con exito";
+              echo Pedido::mostrarPedidoTabla($pedido);
             }
         }
         $payload = json_encode(array("mensaje" => $mensaje));
@@ -79,5 +107,4 @@ class PedidoController extends Pedido implements IApiUsable{
           ->withHeader('Content-Type', 'application/json');
     }
 }
-
 ?>

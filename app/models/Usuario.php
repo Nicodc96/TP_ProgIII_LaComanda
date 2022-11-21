@@ -83,16 +83,25 @@ class Usuario{
         $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM usuarios");
         $consulta->execute();
 
-        return $consulta->fetchAll(PDO::FETCH_CLASS, 'Usuario');
+        return $consulta->fetchAll(PDO::FETCH_CLASS, "Usuario");
     }
 
     public static function obtenerUsuario($usuarioId){
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM usuarios WHERE id = :id");
-        $consulta->bindValue(':id', $usuarioId, PDO::PARAM_STR);
+        $consulta->bindValue(":id", $usuarioId, PDO::PARAM_STR);
         $consulta->execute();
 
-        return $consulta->fetchObject('Usuario');
+        return $consulta->fetchObject("Usuario");
+    }
+
+    public static function obtenerUsuarioSegunUsername($username){
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM usuarios WHERE nombre_usuario = :nombre_usuario");
+        $consulta->bindValue(":nombre_usuario", $username, PDO::PARAM_STR);
+        $consulta->execute();
+
+        return $consulta->fetchObject("Usuario");
     }
 
     public static function modificarUsuario($usuarioParam){
@@ -122,5 +131,4 @@ class Usuario{
         }
         return $consulta->rowCount() > 0;
     }
-    // Agregar modelo Empleado en 2do Sprint
 }
