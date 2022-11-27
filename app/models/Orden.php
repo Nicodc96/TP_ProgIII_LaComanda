@@ -24,13 +24,15 @@ class Orden{
         $orden->descripcion = $descripcion;
         $orden->precio = number_format($precio, 2);
         $orden->tiempo_inicio = $tiempo_inicio;
+        $orden->tiempo_fin = null;
+        $orden->tiempo_estimado = null;
         return $orden;
     }
 
     public function calcularTiempoTerminado(){
         $nuevo_tiempo = new DateTime($this->tiempo_inicio);
         $nuevo_tiempo = $nuevo_tiempo->modify("+". $this->tiempo_estimado . " minutos");
-        $this->tiempo_fin = $nuevo_tiempo->format('Y-m-d H:i:s');
+        $this->tiempo_fin = $nuevo_tiempo->format("Y-m-d H:i:s");
     }
 
     public static function insertarOrdenDB($orden){
@@ -38,7 +40,7 @@ class Orden{
         $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO ordenes (area_orden, id_pedido, estado, descripcion, precio, tiempo_inicio)
         VALUES (:area_orden, :id_pedido, :estado, :descripcion, :precio, :tiempo_inicio)");
         try{
-            $consulta->bindValue(":area_orden", $orden->area_orden, PDO::PARAM_STR);
+            $consulta->bindValue(":area_orden", $orden->area_orden, PDO::PARAM_INT);
             $consulta->bindValue(":id_pedido", $orden->id_pedido, PDO::PARAM_INT);
             $consulta->bindValue(":estado", $orden->estado, PDO::PARAM_STR);
             $consulta->bindValue(":descripcion", $orden->descripcion, PDO::PARAM_STR);
@@ -116,12 +118,13 @@ class Orden{
 
     public static function actualizarOrden($ordenParam){
         $objAccesoDato = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDato->prepararConsulta("UPDATE ordenes SET estado = :estado, tiempo_fin = :tiempo_fin, tiempo_estimado = :tiempo_estimado
+        $consulta = $objAccesoDato->prepararConsulta("UPDATE ordenes 
+        SET estado = :estado, tiempo_fin = :tiempo_fin, tiempo_estimado = :tiempo_estimado
         WHERE id = :id");
         try{
             $consulta->bindValue(":estado", $ordenParam->estado, PDO::PARAM_STR);
-            $consulta->bindValue(":tiempo_fin", $ordenParam->estado, PDO::PARAM_STR);
-            $consulta->bindValue(":tiempo_estimado", $ordenParam->estado, PDO::PARAM_STR);
+            $consulta->bindValue(":tiempo_fin", $ordenParam->tiempo_fin, PDO::PARAM_STR);
+            $consulta->bindValue(":tiempo_estimado", $ordenParam->tiempo_estimado, PDO::PARAM_STR);
             $consulta->bindValue(":id", $ordenParam->id, PDO::PARAM_INT);
             $consulta->execute();
         }catch(\Throwable $err){
@@ -130,7 +133,7 @@ class Orden{
         return $consulta->rowCount() > 0;
     }
 
-    public static function obtenerOrdenId($ordenId){
+    public static function obtenerOrdenPorId($ordenId){
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM ordenes WHERE id = :id");
         $consulta->bindValue(":id", $ordenId, PDO::PARAM_INT);
@@ -145,6 +148,18 @@ class Orden{
         $consulta->bindParam(":tipo_usuario", $tipo_usuario);
         $consulta->execute();
 
+        return $consulta->fetchAll(PDO::FETCH_CLASS, "Orden");
+    }
+
+    public static function obtenerOrdenesPorPedido($pedido_id){
+        $objAccesoDato = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDato->prepararConsulta("SELECT * FROM ordenes WHERE id_pedido = :id_pedido");
+        try{
+            $consulta->bindValue(":id_pedido", $pedido_id, PDO::PARAM_INT);
+            $consulta->execute();
+        }catch(\Throwable $err){
+            echo $err->getMessage();
+        }
         return $consulta->fetchAll(PDO::FETCH_CLASS, "Orden");
     }
 

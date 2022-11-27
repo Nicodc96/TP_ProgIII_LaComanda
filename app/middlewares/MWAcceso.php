@@ -1,14 +1,8 @@
 <?php
-
-use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use Slim\Psr7\Response;
 
-require "JWT.php";
-
+require_once "JWT.php";
 class MWAcceso{
-    private $tipo_usuarios = ["Admin", "Mozo", "Cocinero", "Barman"];
-
     public function validarToken($request, $handler){
         $header = $request->getHeaderLine("Authorization");
         $response = new Response();
@@ -50,12 +44,10 @@ class MWAcceso{
             if (!empty($header)) {
                 $token = trim(explode("Bearer", $header)[1]);
                 $data = JWTAuth::getInfoToken($token);
-                if (in_array($data->tipo_usuario, $this->tipo_usuarios)) {
-                    if ($data->User_Type != "Admin") {
-                        $response = $handler->handle($request);
-                    }
+                if (in_array($data->tipo_usuario, ["Mozo", "Cocinero", "Barman"])) {
+                    $response = $handler->handle($request);
                 } else {
-                    $response->getBody()->write(json_encode(array("Error" => "Acceso solo a personal autorizado.")));
+                    $response->getBody()->write(json_encode(array("Error" => "Acceso solo al personal autorizado.")));
                     $response = $response->withStatus(401);
                 }
             } else {
@@ -74,8 +66,7 @@ class MWAcceso{
         if (!empty($header)) {
             $token = trim(explode("Bearer", $header)[1]);
             $data = JWTAuth::getInfoToken($token);
-            if ($data->tipo_usuario == "Cocinero"
-            || $data->tipo_usuario == "Admin") {
+            if ($data->tipo_usuario == "Cocinero" || $data->tipo_usuario == "Admin") {
                 $response = $handler->handle($request);
             } else {
                 $response->getBody()->write(json_encode(array("Error" => "Solo los cocineros y administradores tienen acceso a esta seccion.")));
@@ -88,14 +79,13 @@ class MWAcceso{
         return $response->withHeader("Content-Type", "application/json");
     }
 
-    public function isWaitress($request, $handler){
+    public function esMozo($request, $handler){
         $header = $request->getHeaderLine("Authorization");
         $response = new Response();
         if (!empty($header)) {
             $token = trim(explode("Bearer", $header)[1]);
             $data = JWTAuth::getInfoToken($token);
-            if ($data->tipo_usuario == "Mozo"
-            || $data->tipo_usuario == "Admin") {
+            if ($data->tipo_usuario == "Mozo" || $data->tipo_usuario == "Admin") {
                 $response = $handler->handle($request);
             } else {
                 $response->getBody()->write(json_encode(array("Error" => "Solo los mozos y administradores tienen acceso a esta seccion.")));

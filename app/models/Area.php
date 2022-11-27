@@ -46,7 +46,7 @@ class Area{
         return $consulta->rowCount() > 0;
     }
 
-    public static function obtenerAreaId($areaId){
+    public static function obtenerAreasPorId($areaId){
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM areas WHERE id = :id");
         $consulta->bindValue(":id", $areaId, PDO::PARAM_INT);
@@ -55,7 +55,7 @@ class Area{
         return $consulta->fetchObject("Area");
     }
 
-    public static function obtenerAreaDesc($area_desc){
+    public static function obtenerAreasPorDescripcion($area_desc){
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM areas WHERE descripcion = :descripcion");
         $consulta->bindValue(":descripcion", $area_desc, PDO::PARAM_STR);

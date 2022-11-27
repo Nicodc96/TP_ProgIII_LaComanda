@@ -42,11 +42,13 @@ class Empleado{
         $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM empleados");
         $consulta->execute();
 
-        return $consulta->fetchAll(PDO::FETCH_CLASS, 'Empleado');
+        return $consulta->fetchAll(PDO::FETCH_CLASS, "Empleado");
     }
 
-    public static function mostrarEmpleadosTabla(){
-        $arrayEmpleados = self::obtenerTodos();
+    public static function mostrarEmpleadosTabla($array_empleados = array()){
+        if (count($array_empleados) <= 0){
+            $arrayEmpleados = self::obtenerTodos();
+        }
         $mensaje = "Lista vacia.";
         if (is_array($arrayEmpleados) && count($arrayEmpleados) > 0){
             $mensaje = "<h3 align='center'> Lista de Empleados </h3>";
@@ -66,7 +68,7 @@ class Empleado{
     }
 
     public static function mostrarEmpleadoTabla($empleado){
-        $mensaje = "El objeto envíado por parámetro no es un empleado.";
+        $mensaje = "El objeto enviado por parámetro no es un empleado.";
         if (is_a($empleado, "Empleado")){
             $mensaje = "<h3 align='center'> Lista de Empleados </h3>";
             $mensaje .= "<table align='center'><thead><tr><th>ID</th><th>Usuario ID</th><th>Nombre</th><th>ID Area Trabajo</th><th>Fecha Alta</th><th>Fecha Baja</th></tr><tbody>";
@@ -82,7 +84,7 @@ class Empleado{
         return $mensaje;
     }
 
-    public static function obtenerEmpleadoId($empleadoId){
+    public static function obtenerEmpleadoPorId($empleadoId){
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM empleados WHERE id = :id");
         $consulta->bindValue(":id", $empleadoId, PDO::PARAM_INT);
@@ -96,9 +98,9 @@ class Empleado{
         $consulta = $objAccesoDato->prepararConsulta("UPDATE empleados SET usuario_id = :usuario_id, id_area_empleado = :id_area_empleado, nombre = :nombre
         WHERE id = :id");
         try{
-            $consulta->bindValue(':usuario_id', $empleadoParam->usuario_id, PDO::PARAM_INT);
-            $consulta->bindValue(':id_area_empleado', $empleadoParam->id_area_empleado, PDO::PARAM_INT);
-            $consulta->bindValue(':nombre', $empleadoParam->nombre, PDO::PARAM_INT);
+            $consulta->bindValue(":usuario_id", $empleadoParam->usuario_id, PDO::PARAM_INT);
+            $consulta->bindValue(":id_area_empleado", $empleadoParam->id_area_empleado, PDO::PARAM_INT);
+            $consulta->bindValue(":nombre", $empleadoParam->nombre, PDO::PARAM_STR);
             $consulta->execute();
         }catch(\Throwable $err){
             echo $err->getMessage();
@@ -110,8 +112,8 @@ class Empleado{
         $consulta = $objAccesoDato->prepararConsulta("UPDATE empleados SET fecha_baja = :fechaBaja WHERE id = :id");
         try{
             $fecha = new DateTime(date("d-m-Y"));
-            $consulta->bindValue(':id', $empleadoId, PDO::PARAM_INT);
-            $consulta->bindValue(':fechaBaja', date_format($fecha, 'Y-m-d H:i:s'));
+            $consulta->bindValue(":id", $empleadoId, PDO::PARAM_INT);
+            $consulta->bindValue(":fechaBaja", date_format($fecha, "Y-m-d H:i:s"));
             $consulta->execute();
         }catch(\Throwable $err){
             echo $err->getMessage();

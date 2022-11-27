@@ -19,7 +19,6 @@ class Usuario{
         $usuario->tipo_usuario = $tipo;
         $usuario->estado = $estado;
         $usuario->fecha_alta = $fechaAlta;
-
         return $usuario;
     }
 
@@ -29,12 +28,12 @@ class Usuario{
         VALUES (:usuario, :clave, :esAdmin, :tipo, :estado, :fechaAlta)");
         try{
             $claveHasheada = password_hash($usuario->clave, PASSWORD_DEFAULT);
-            $consulta->bindValue(':usuario', $usuario->nombre_usuario, PDO::PARAM_STR);
-            $consulta->bindValue(':clave', $claveHasheada);
-            $consulta->bindValue(':esAdmin', $usuario->esAdmin, PDO::PARAM_BOOL);
-            $consulta->bindValue(':tipo', $usuario->tipo_usuario, PDO::PARAM_STR);
-            $consulta->bindValue(':estado', $usuario->estado, PDO::PARAM_STR);
-            $consulta->bindValue(':fechaAlta', $usuario->fecha_alta, PDO::PARAM_STR);
+            $consulta->bindValue(":usuario", $usuario->nombre_usuario, PDO::PARAM_STR);
+            $consulta->bindValue(":clave", $claveHasheada);
+            $consulta->bindValue(":esAdmin", $usuario->esAdmin, PDO::PARAM_INT);
+            $consulta->bindValue(":tipo", $usuario->tipo_usuario, PDO::PARAM_STR);
+            $consulta->bindValue(":estado", $usuario->estado, PDO::PARAM_STR);
+            $consulta->bindValue(":fechaAlta", $usuario->fecha_alta, PDO::PARAM_STR);
             $consulta->execute();
         }catch(\Throwable $err){
             echo $err->getMessage();
@@ -43,8 +42,10 @@ class Usuario{
         return $objAccesoDatos->obtenerUltimoId();
     }
 
-    public static function mostrarUsuariosTabla(){
-        $arrayUsuarios = self::obtenerTodos();
+    public static function mostrarUsuariosTabla($arrayUsuarios = array()){
+        if (count($arrayUsuarios) <= 0){
+            $arrayUsuarios = self::obtenerTodos();
+        }
         $mensaje = "Lista vacia.";
         if (is_array($arrayUsuarios) && count($arrayUsuarios) > 0){
             $mensaje = "<h3 align='center'> Lista de usuarios </h3>";
@@ -86,7 +87,7 @@ class Usuario{
         return $consulta->fetchAll(PDO::FETCH_CLASS, "Usuario");
     }
 
-    public static function obtenerUsuario($usuarioId){
+    public static function obtenerUsuarioPorId($usuarioId){
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM usuarios WHERE id = :id");
         $consulta->bindValue(":id", $usuarioId, PDO::PARAM_STR);
@@ -95,22 +96,35 @@ class Usuario{
         return $consulta->fetchObject("Usuario");
     }
 
-    public static function obtenerUsuarioSegunUsername($username){
+    public static function obtenerUsuarioSegunEmpleado($empleado){
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM usuarios AS U
+        JOIN empleados AS E ON :id_empleado = u.id");
+        $consulta->bindValue(":id_empleado", $empleado->id, PDO::PARAM_INT);
+        $consulta->execute();
+
+        return $consulta->fetchObject("Usuario");
+    }
+
+    public static function obtenerUsuarioPorUsername($username){
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM usuarios WHERE nombre_usuario = :nombre_usuario");
         $consulta->bindValue(":nombre_usuario", $username, PDO::PARAM_STR);
         $consulta->execute();
-
-        return $consulta->fetchObject("Usuario");
+        $usuario = $consulta->fetchObject("Usuario");
+        if (is_null($usuario)){
+            throw new Exception ("Usuario no encontrado.");
+        }
+        return $usuario;
     }
 
     public static function modificarUsuario($usuarioParam){
         $objAccesoDato = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDato->prepararConsulta("UPDATE usuarios SET nombre_usuario = :usuario, clave = :clave WHERE id = :id");
         try{
-            $consulta->bindValue(':usuario', $usuarioParam->nombre_usuario, PDO::PARAM_STR);
-            $consulta->bindValue(':clave', $usuarioParam->clave, PDO::PARAM_STR);
-            $consulta->bindValue(':id', $usuarioParam->id, PDO::PARAM_INT);
+            $consulta->bindValue(":usuario", $usuarioParam->nombre_usuario, PDO::PARAM_STR);
+            $consulta->bindValue(":clave", $usuarioParam->clave, PDO::PARAM_STR);
+            $consulta->bindValue(":id", $usuarioParam->id, PDO::PARAM_INT);
             $consulta->execute();
         }catch(\Throwable $err){
             echo $err->getMessage();
@@ -123,8 +137,8 @@ class Usuario{
         $consulta = $objAccesoDato->prepararConsulta("UPDATE usuarios SET fecha_baja = :fechaBaja WHERE id = :id");
         try{
             $fecha = new DateTime(date("d-m-Y"));
-            $consulta->bindValue(':id', $usuarioId, PDO::PARAM_INT);
-            $consulta->bindValue(':fechaBaja', date_format($fecha, 'Y-m-d H:i:s'));
+            $consulta->bindValue(":id", $usuarioId, PDO::PARAM_INT);
+            $consulta->bindValue(":fechaBaja", date_format($fecha, "Y-m-d H:i:s"));
             $consulta->execute();
         }catch(\Throwable $err){
             echo $err->getMessage();

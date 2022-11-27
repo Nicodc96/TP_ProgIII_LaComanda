@@ -9,38 +9,43 @@ require_once "./controllers/UsuarioController.php";
 class PedidoController extends Pedido implements IApiUsable{
     public function CargarUno($request, $response, $args){
         $carpetaImg = "./PedidoImagenes/";
-        $parametros = $request->getParsedBody();
+        $params = $request->getParsedBody();
+
+        $mesa_id = $params["mesa_id"];
 
         $pedido = Pedido::crearPedido(
-            $parametros["id_mesa"], // Cambiar en 2do Sprint (chequear que exista la mesa)
-            "Pendiente",
-            $parametros["nombre_cliente"],
-            $parametros["costo_pedido"],
+            $mesa_id,
+            $params["estado_pedido"],
+            $params["nombre_cliente"],
+            $params["costo_pedido"],
             ""
         );
+
+        $payload = json_encode($pedido);
         $pedido_id = Pedido::insertarPedidoDB($pedido);
+
         if ($pedido_id > 0){
             $payload = json_encode(array("mensaje" => "Pedido registrado con exito."));
             $file_manager = new UploadManager($carpetaImg, $pedido_id, $_FILES);
+            $pedido = Pedido::obtenerPedidoPorId($pedido_id);
             $pedido->foto_pedido = UploadManager::getOrderImageNameExt($file_manager, $pedido_id);
-            $pedido->id = $pedido_id;
             Pedido::actualizarFoto($pedido);
             echo Pedido::mostrarPedidoTabla($pedido);
         } else{
-        $payload = json_encode(array("mensaje" => "Error al registrar el pedido."));
+          $payload = json_encode(array("mensaje" => "Error al registrar el pedido."));
         }
   
         $response->getBody()->write($payload);
         return $response
-        ->withHeader('Content-Type', 'application/json');
+        ->withHeader("Content-Type", "application/json");
     }
     public function TraerUno($request, $response, $args){
-        $pedido = Pedido::obtenerPedidoId($args['pedidoId']);        
+        $pedido = Pedido::obtenerPedidoPorId($args["id_pedido"]);        
         $payload = json_encode($pedido);
 
         $response->getBody()->write($payload);
         return $response
-          ->withHeader('Content-Type', 'application/json');
+        ->withHeader("Content-Type", "application/json");
     }
 
     public function TraerTodos($request, $response, $args){
@@ -49,7 +54,7 @@ class PedidoController extends Pedido implements IApiUsable{
 
         $response->getBody()->write($payload);
         return $response
-          ->withHeader('Content-Type', 'application/json');
+        ->withHeader("Content-Type", "application/json");
     }
 
     public function TraerSegunArea($request, $response, $args){
@@ -57,45 +62,46 @@ class PedidoController extends Pedido implements IApiUsable{
         
         $ordenes = Orden::obtenerOrdenesPorTipoUsuario($tipo_usuario);
         echo Orden::mostrarOrdenesTabla($ordenes);
-        $payload = json_encode(array("lista_de_ordenes_del_pedido" => $ordenes));
+        $payload = json_encode(array("lista_de_ordenes" => $ordenes));
 
         $response->getBody()->write($payload);
         return $response
-          ->withHeader('Content-Type', 'application/json');
+        ->withHeader("Content-Type", "application/json");
     }
 
     public function TraerPedidosTiempo($request, $response, $args){
         $pedidos = Pedido::obtenerPedidosConTiempo();
-        echo Pedido::mostrarPedidosTabla($pedidos);
 
+        echo Pedido::mostrarPedidosConTiempoTabla($pedidos);
         $payload = json_encode(array("lista_pedidos" => $pedidos));
+
         $response->getBody()->write($payload);
         return $response
-          ->withHeader('Content-Type', 'application/json');
+        ->withHeader("Content-Type", "application/json");
     }
 
     public function BorrarUno($request, $response, $args){
         $parametros = $request->getParsedBody();
 
-        Pedido::eliminarPedido($parametros["pedidoId"]) ? 
+        Pedido::eliminarPedido($parametros["id_pedido"]) ? 
         $mensaje = "Pedido borrado con exito" : 
         $mensaje = "No se ha podido eliminar el pedido";
-
         $payload = json_encode(array("mensaje" => $mensaje));
-        $response->getBody()->write($payload);
+
+       $response->getBody()->write($payload);
         return $response
-          ->withHeader('Content-Type', 'application/json');
+        ->withHeader("Content-Type", "application/json");
     }
 
 	public function ModificarUno($request, $response, $args){
-        $parametros = $request->getParsedBody();
+        $params = $request->getParsedBody();
 
-        $pedido = Pedido::obtenerPedidoId($args["pedidoId"]);
+        $pedido = Pedido::obtenerPedidoPorId($args["id_pedido"]);
         $mensaje = "No se ha podido modificar el pedido";
         if ($pedido){
-            $pedido->estado_pedido = $parametros["estado_pedido"];
+            $pedido->estado_pedido = $params["estado_pedido"];
             $pedido->costo_pedido = Orden::obtenerPrecioDeOrdenesPorPedido($pedido->id);
-            if (Pedido::modificarPedido($pedido)){
+            if (Pedido::actualizarPedido($pedido)){
               $mensaje = "Pedido modificado con exito";
               echo Pedido::mostrarPedidoTabla($pedido);
             }
@@ -104,7 +110,7 @@ class PedidoController extends Pedido implements IApiUsable{
   
         $response->getBody()->write($payload);
         return $response
-          ->withHeader('Content-Type', 'application/json');
+        ->withHeader("Content-Type", "application/json");
     }
 }
 ?>
