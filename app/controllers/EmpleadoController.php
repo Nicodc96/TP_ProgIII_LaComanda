@@ -32,8 +32,8 @@ class EmpleadoController extends Empleado implements IApiUsable{
         $params = $request->getParsedBody();
         
         $nombre_empleado = $params["nombre"];
-        $area_empleado = $params["Area"];
-        $usuario_empleado = $params['User'];
+        $area_empleado = $params["area"];
+        $usuario_empleado = $params["nombre_usuario"];
         $area_empleado  = Area::obtenerAreasPorDescripcion($area_empleado);
         $idUsuario_empleado = Usuario::obtenerUsuarioPorUsername($usuario_empleado)->id;
         $nuevo_empleado = Empleado::crearEmpleado($idUsuario_empleado, $area_empleado->id, $nombre_empleado, date("Y-m-d H:i:s"));
@@ -42,9 +42,9 @@ class EmpleadoController extends Empleado implements IApiUsable{
         echo Empleado::mostrarEmpleadoTabla($nuevo_empleado);
 
         if (Empleado::insertarEmpleadoDB($nuevo_empleado) > 0) {
-            $payload = json_encode(array("mensaje" => "Usuario creado exitosamente!"));
+            $payload = json_encode(array("mensaje" => "Empleado creado exitosamente!"));
         }else{
-            $payload = json_encode(array("error" => "No se ha podido crear el usuario solicitado."));
+            $payload = json_encode(array("error" => "No se ha podido crear el empleado solicitado."));
         }
 
         $response->getBody()->write($payload);
@@ -56,7 +56,7 @@ class EmpleadoController extends Empleado implements IApiUsable{
         $id_empleado = $args["id_empleado"];
         $empleado = Empleado::obtenerEmpleadoPorId($id_empleado);
         if (Empleado::borrarEmpleado($empleado->id) > 0) {
-            $payload = json_encode(array("mensaje" => "Usuario borrado con exito"));
+            $payload = json_encode(array("mensaje" => "Empleado borrado con exito"));
         }else{
             $payload = json_encode(array("mensaje" => "No se ha podido borrar el empleado solicitado!"));
         }

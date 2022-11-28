@@ -46,12 +46,13 @@ class Usuario{
         if (count($arrayUsuarios) <= 0){
             $arrayUsuarios = self::obtenerTodos();
         }
-        $mensaje = "Lista vacia.";
+        $mensaje = "Lista vacia.<br>";
         if (is_array($arrayUsuarios) && count($arrayUsuarios) > 0){
             $mensaje = "<h3 align='center'> Lista de usuarios </h3>";
-            $mensaje .= "<table align='center'><thead><tr><th>ID</th><th>Nombre de Usuario</th><th>Es Administrador</th><th>Tipo de Usuario</th><th>Estado</th><th>Fecha de Alta</th></tr><tbody>";
+            $mensaje .= "<table align='center'><thead><tr><th>ID</th><th>Nombre de Usuario</th><th>Administrador</th><th>Tipo de Usuario</th><th>Estado</th><th>Fecha de Alta</th></tr><tbody>";
             foreach($arrayUsuarios as $usuario){
                 $mensaje .= "<tr align='center'>" .
+                "<td>" . $usuario->id . "</td>" .
                 "<td>" . $usuario->nombre_usuario . "</td>" .
                 "<td>" . $usuario->esAdmin . "</td>" .
                 "<td>" . $usuario->tipo_usuario . "</td>" .
@@ -67,8 +68,9 @@ class Usuario{
         $mensaje = "El objeto envíado por parámetro no es un usuario.";
         if (is_a($usuario, "Usuario")){
             $mensaje = "<h3 align='center'> Lista de usuarios </h3>";
-            $mensaje .= "<table align='center'><thead><tr><th>ID</th><th>Nombre de Usuario</th><th>Es Administrador</th><th>Tipo de Usuario</th><th>Estado</th><th>Fecha de Alta</th></tr><tbody>";
+            $mensaje .= "<table align='center'><thead><tr><th>ID</th><th>Nombre de Usuario</th><th>Administrador</th><th>Tipo de Usuario</th><th>Estado</th><th>Fecha de Alta</th></tr><tbody>";
             $mensaje .= "<tr align='center'>" .
+            "<td>" . $usuario->id . "</td>" .
             "<td>" . $usuario->nombre_usuario . "</td>" .
             "<td>" . $usuario->esAdmin . "</td>" .
             "<td>" . $usuario->tipo_usuario . "</td>" .
@@ -144,5 +146,21 @@ class Usuario{
             echo $err->getMessage();
         }
         return $consulta->rowCount() > 0;
+    }
+
+    public static function insertarRegistroLogin($usuario){
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO logsusuarios (usuario_id, nombre_usuario, fecha_login)
+        VALUES (:usuario_id, :nombre_usuario, :fecha_login)");
+        try{
+            $consulta->bindValue(":usuario_id", $usuario->id, PDO::PARAM_INT);
+            $consulta->bindValue(":nombre_usuario", $usuario->nombre_usuario, PDO::PARAM_STR);
+            $consulta->bindValue(":fecha_login", date("Y-m-d H:i:s"));
+            $consulta->execute();
+        }catch(\Throwable $err){
+            echo $err->getMessage();
+        }
+
+        return $objAccesoDatos->obtenerUltimoId();
     }
 }

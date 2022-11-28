@@ -31,14 +31,13 @@ class ArchivoController extends LogsUsuarios{
     }
 
     public function DescargarPDF($request, $response, $args){
-        $params = $request->getParsedBody();
-        $directorio = './Logs/';
+        $directorio = "./Logs/";
         $payload = json_encode(array("error" => "El archivo no se ha podido guardar", "Mejores encuestas" => "Error en lectura"));
         
-        if($params["cantidad_encuestas"]){
-            $cantidad_encuestas = $params["cantidad_encuestas"];
+        if($args["cantidad_encuestas"]){
+            $cantidad_encuestas = $args["cantidad_encuestas"];
             $payload = Encuesta::DescargarPDF($directorio, $cantidad_encuestas);
-            echo "Archivo guardado en: ". $directorio;
+            echo "Archivo guardado en: ". $directorio . "<br>";
         }
         
         $response->getBody()->write($payload);

@@ -1,6 +1,5 @@
 <?php
 require_once 'Pedido.php';
-
 class UploadManager{
 
     private $_DIR_TO_SAVE;

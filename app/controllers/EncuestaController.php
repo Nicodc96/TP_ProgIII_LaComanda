@@ -1,7 +1,7 @@
 <?php
 require_once "./models/Encuesta.php";
 class EncuestaController extends Encuesta{
-    public function CrearEncuesta($request, $response, $args){
+    public function CrearEncuestaController($request, $response, $args){
         $params = $request->getParsedBody();
         $payload = json_encode(array("mensaje" => "No se ha podido crear la encuesta."));
 
@@ -15,7 +15,7 @@ class EncuestaController extends Encuesta{
             $cocinero_puntuacion = $params["cocinero_puntuacion"];
             $comentario = $params["comentario"];
 
-            $encuesta = Encuesta::crearEncuesta($id_pedido, $mesa_puntuacion, $restaurante_puntuacion, $mozo_puntuacion, $cocinero_puntuacion, $comentario);            
+            $encuesta = Encuesta::crearEncuesta($id_pedido, $mesa_puntuacion, $restaurante_puntuacion, $mozo_puntuacion, $cocinero_puntuacion, $comentario);
             if(Encuesta::insertarEncuestaDB($encuesta) > 0){
                 echo "<h2>Se ha publicado la encuesta, ¡Vuelva pronto!</h2>";
                 echo Encuesta::mostrarEncuestaTabla($encuesta);
@@ -28,12 +28,11 @@ class EncuestaController extends Encuesta{
           ->withHeader("Content-Type", "application/json");
     }
 
-    public function ObtenerMejoresEncuestas($request, $response, $args){
-        $params = $request->getParsedBody();
+    public function ObtenerMejoresEncuestasController($request, $response, $args){
         $payload = json_encode(array("error" => "No se han podido obtener encuestas."));
 
-        if (isset($params["cantidad"])){
-            $cantidad = $params["cantidad"];
+        if (isset($args["cantidad"])){
+            $cantidad = $args["cantidad"];
             $encuestas = Encuesta::obtenerMejoresEncuestas($cantidad);
             echo Encuesta::mostrarEncuestasTabla($encuestas);
             $payload = json_encode(array("Mejores encuestas" => $encuestas));

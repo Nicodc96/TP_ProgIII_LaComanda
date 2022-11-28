@@ -29,7 +29,7 @@ class Encuesta{
         $ptn_promedio = 0;
         $arraySum = array($this->mesa_puntuacion, $this->restaurante_puntuacion, $this->mozo_puntuacion, $this->cocinero_puntuacion);
         if(count($arraySum) > 0) {
-            $ptn_promedio = round(array_sum($arraySum) / count($arraySum), 2, PHP_ROUND_HALF_EVEN);
+            $ptn_promedio = round(array_sum($arraySum) / count($arraySum), 2);
         }
         $this->puntuacion_promedio = $ptn_promedio;
     }
@@ -38,10 +38,10 @@ class Encuesta{
         if (count($array_encuestas) <= 0){
             $array_encuestas = self::obtenerTodos();
         }
-        $mensaje = "Lista vacia.";
+        $mensaje = "Lista vacia.<br>";
         if (is_array($array_encuestas) && count($array_encuestas) > 0){
             $mensaje = "<h3 align='center'> Lista de Encuestas </h3>";
-            $mensaje .= "<table align='center'><thead><tr><th>ID</th><th>Usuario ID</th><th>Nombre</th><th>ID Area Trabajo</th><th>Fecha Alta</th><th>Fecha Baja</th></tr><tbody>";
+            $mensaje .= "<table align='center'><thead><tr><th>ID</th><th>ID Pedido</th><th>Mesa Points</th><th>Restaurante Points</th><th>Mozo Points</th><th>Cocinero Points</th><th>Puntuacion promedio</th></tr><tbody>";
             foreach($array_encuestas as $encuesta){
                 $mensaje .= "<tr align='center'>" .
                 "<td>" . $encuesta->id . "</td>" .
@@ -134,30 +134,29 @@ class Encuesta{
             $pdf->AddPage();
 
             // Titulo
-            $pdf->SetFont("Arial", "B", 25);
-            $pdf->Cell(160, 15, "La Comanda", 1, 3, "L");
+            $pdf->SetFont("Arial", "I", 23);
+            $pdf->Cell(160, 15, "La Comanda - Informes - Administracion", 1, 3, "L");
             $pdf->Ln(3);
 
             // Sub-titulo
             $pdf->SetFont("Arial", "", 15);
-            $pdf->Cell(60, 4, "TP - Programación III - PHP", 1, 3, "L");
-            $pdf->Cell(60, 0, "", 1, 3, "L");
+            $pdf->Cell(67, 6, "TP - Programacion III - PHP", 1, 3, "L");
             $pdf->Ln(3);
             
             // Nombre del Alumno
-            $pdf->Cell(60, 4, "Diaz, L. Nicolas", 0, 1, "L");
-            $pdf->Cell(40, 0, "", "T");
+            $pdf->Cell(60, 4, "Alumno: Diaz, Lautaro Nicolas", 0, 1, "L");
+            $pdf->Cell(73, 0, "", "T");
             $pdf->Ln(5);
 
             // Columnas de la clase 'Encuesta'
-            $cabecera = array("ID", "Pedido_ID", "Mesa_PTCION", "Restaurante_PTCION", "Mozo_PTCION", "Cocinero_PTCION", "PROMEDIO", "COMENTARIO");
+            $cabecera = array("ID", "Pedid_ID", "Mesa_P", "Rest_P", "Mozo_P", "Cocin_P", "PROMED", "COMENTARIO");
 
             $pdf->SetFillColor(125, 0, 0);
             $pdf->SetTextColor(125);
             $pdf->SetDrawColor(50, 0, 0);
             $pdf->SetLineWidth(.3);
             $pdf->SetFont("Arial", "B", 8);
-            $w = array(10, 12, 15, 15, 15, 15, 15, 92);
+            $w = array(10, 15, 15, 15, 15, 15, 15, 92);
 
             // Escribo el titulo de cada columna
             for ($i = 0; $i < count($cabecera); $i++) {

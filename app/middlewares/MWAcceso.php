@@ -44,14 +44,14 @@ class MWAcceso{
             if (!empty($header)) {
                 $token = trim(explode("Bearer", $header)[1]);
                 $data = JWTAuth::getInfoToken($token);
-                if (in_array($data->tipo_usuario, ["Mozo", "Cocinero", "Barman"])) {
+                if (in_array($data->tipo_usuario, ["Mozo", "Cocinero", "Barman", "Admin"])) {
                     $response = $handler->handle($request);
                 } else {
                     $response->getBody()->write(json_encode(array("Error" => "Acceso solo al personal autorizado.")));
                     $response = $response->withStatus(401);
                 }
             } else {
-                $response->getBody()->write(json_encode(array("Error" => "Es necesario un token de usuario.")));
+                $response->getBody()->write(json_encode(array("Error" => "Es necesario un token de empleado.")));
                 $response = $response->withStatus(401);
             }
         } catch (\Throwable $th) {

@@ -1,6 +1,6 @@
 <?php
-require "./models/Pedido.php";
-require "./db/AccesoDatos.php";
+require_once "./models/Pedido.php";
+require_once "./db/AccesoDatos.php";
 
 class Empleado{
     public $id;
@@ -47,13 +47,13 @@ class Empleado{
 
     public static function mostrarEmpleadosTabla($array_empleados = array()){
         if (count($array_empleados) <= 0){
-            $arrayEmpleados = self::obtenerTodos();
+            $array_empleados = self::obtenerTodos();
         }
-        $mensaje = "Lista vacia.";
-        if (is_array($arrayEmpleados) && count($arrayEmpleados) > 0){
+        $mensaje = "Lista vacia.<br>";
+        if (is_array($array_empleados) && count($array_empleados) > 0){
             $mensaje = "<h3 align='center'> Lista de Empleados </h3>";
             $mensaje .= "<table align='center'><thead><tr><th>ID</th><th>Usuario ID</th><th>Nombre</th><th>ID Area Trabajo</th><th>Fecha Alta</th><th>Fecha Baja</th></tr><tbody>";
-            foreach($arrayEmpleados as $empleado){
+            foreach($array_empleados as $empleado){
                 $mensaje .= "<tr align='center'>" .
                 "<td>" . $empleado->id . "</td>" .
                 "<td>" . $empleado->usuario_id . "</td>" .

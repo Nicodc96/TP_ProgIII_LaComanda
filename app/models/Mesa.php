@@ -21,7 +21,7 @@ class Mesa{
         VALUES (:codigo, :id_empleado, :estado)");
         try{
             $consulta->bindValue(":codigo", $mesa->codigo_mesa, PDO::PARAM_STR);
-            $consulta->bindValue(":id_empleado", $mesa->id_empleado, PDO::PARAM_INT);
+            $consulta->bindParam(":id_empleado", $mesa->id_empleado);
             $consulta->bindValue(":estado", $mesa->estado, PDO::PARAM_STR);
             $consulta->execute();
         }catch(\Throwable $err){
@@ -43,7 +43,7 @@ class Mesa{
         if (count($arrayMesas) == 0){
             $arrayMesas = self::obtenerTodos();
         }
-        $mensaje = "Lista vacia.";
+        $mensaje = "Lista vacia.<br>";
         if (is_array($arrayMesas) && count($arrayMesas) > 0){
             $mensaje = "<h3 align='center'> Lista de Mesas </h3>";
             $mensaje .= "<table align='center'><thead><tr><th>ID</th><th>Codigo</th><th>ID Empleado Asociado</th><th>Estado</th></tr><tbody>";
@@ -85,11 +85,13 @@ class Mesa{
 
     public static function modificarMesa($mesaParam){
         $objAccesoDato = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDato->prepararConsulta("UPDATE mesas SET codigo_mesa = :codigo, id_empleado = :id_emp, estado = :estado WHERE id = :id");
+        $consulta = $objAccesoDato->prepararConsulta("UPDATE mesas SET codigo_mesa = :codigo, id_empleado = :id_emp, estado = :estado 
+        WHERE id = :id");
         try{
             $consulta->bindValue(":codigo", $mesaParam->codigo_mesa, PDO::PARAM_STR);
             $consulta->bindValue(":id_emp", $mesaParam->id_empleado, PDO::PARAM_INT);
             $consulta->bindValue(":estado", $mesaParam->estado, PDO::PARAM_STR);
+            $consulta->bindValue(":id", $mesaParam->id, PDO::PARAM_INT);
             $consulta->execute();
         }catch(\Throwable $err){
             echo $err->getMessage();
@@ -158,7 +160,7 @@ class Mesa{
         $consulta->bindValue(":id", $mesa->id, PDO::PARAM_INT);
         $consulta->execute();
 
-        return $consulta->fetchObject("Mesa");
+        return $consulta->rowCount() > 0;
     }
 }
 ?>

@@ -1,7 +1,7 @@
 <?php
 
-require "./db/AccesoDatos.php";
-require "./models/Area.php";
+require_once "./db/AccesoDatos.php";
+require_once "./models/Area.php";
 
 class Orden{
     public $id;
@@ -22,7 +22,7 @@ class Orden{
         $orden->id_pedido = $id_pedido;
         $orden->estado = $estado;
         $orden->descripcion = $descripcion;
-        $orden->precio = number_format($precio, 2);
+        $orden->precio = $precio;
         $orden->tiempo_inicio = $tiempo_inicio;
         $orden->tiempo_fin = null;
         $orden->tiempo_estimado = null;
@@ -31,7 +31,7 @@ class Orden{
 
     public function calcularTiempoTerminado(){
         $nuevo_tiempo = new DateTime($this->tiempo_inicio);
-        $nuevo_tiempo = $nuevo_tiempo->modify("+". $this->tiempo_estimado . " minutos");
+        $nuevo_tiempo = $nuevo_tiempo->modify("+". $this->tiempo_estimado . " minutes");
         $this->tiempo_fin = $nuevo_tiempo->format("Y-m-d H:i:s");
     }
 
@@ -67,7 +67,7 @@ class Orden{
         if (count($arrayOrdenes) == 0){
             $arrayOrdenes = self::obtenerTodos();
         }
-        $mensaje = "Lista vacia.";
+        $mensaje = "Lista vacia.<br>";
         if (is_array($arrayOrdenes) && count($arrayOrdenes) > 0){
             $mensaje = "<h3 align='center'> Lista de Ordenes </h3>";
             $mensaje .= "<table align='center'><thead><tr><th>ID</th><th>Area Asociada</th><th>ID Pedido</th><th>Estado</th><th>Descripcion</th><th>Tiempo inicio</th><th>Tiempo fin</th><th>Tiempo estimado</th></tr><tbody>";
@@ -109,7 +109,7 @@ class Orden{
     public static function filtrarOrdenesTerminadas($lista_ordenes, $estado){
         $lista_filtrada = array();
         foreach($lista_ordenes as $orden){
-            if(strcmp($orden->estado, $estado) == 0){
+            if(strcmp($orden->estado, "Listo para servir") == 0){
                 array_push($lista_filtrada, $orden);
             }
         }
@@ -165,7 +165,7 @@ class Orden{
 
     public static function obtenerPrecioDeOrdenesPorPedido($pedido_id){
         $objAccesoDato = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDato->prepararConsulta("SELECT SUM(precio) FROM ordenes WHERE id_pedido = :id_pedido");
+        $consulta = $objAccesoDato->prepararConsulta("SELECT SUM(precio) AS total FROM ordenes WHERE id_pedido = :id_pedido");
         try{
             $consulta->bindValue(":id_pedido", $pedido_id, PDO::PARAM_INT);
             $consulta->execute();

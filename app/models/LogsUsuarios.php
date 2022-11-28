@@ -50,7 +50,7 @@ class LogsUsuarios{
     }
 
     public static function mostrarLogsUsuariosTabla($array_logsUsuarios = array()){
-        $mensaje = "Lista vacia.";
+        $mensaje = "Lista vacia.<br>";
         if (is_array($array_logsUsuarios) && count($array_logsUsuarios) > 0){
             $mensaje = "<h3 align='center'> Historial de login de Usuarios </h3>";
             $mensaje .= "<table align='center'><thead><tr><th>ID</th><th>Usuario ID</th><th>Nombre de Usuario</th><th>Fecha de Login</th></tr><tbody>";

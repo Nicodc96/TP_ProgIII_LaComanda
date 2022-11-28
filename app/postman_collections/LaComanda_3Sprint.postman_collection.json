@@ -1,0 +1,854 @@
+{
+	"info": {
+		"_postman_id": "af69fbc3-94f9-4c58-83d6-0af8a6fe8915",
+		"name": "TP_LaComanda",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11641824"
+	},
+	"item": [
+		{
+			"name": "Usuarios",
+			"item": [
+				{
+					"name": "Listar usuarios - Todos (admin)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Njk2NDk3NjEsImV4cCI6MjE5NTI0OTc2MSwiYXVkIjoiMGZmODMzNGZjMjJjNDRjNzQ3NzUzYWRjM2U5OWE5OTYxNjY2MzAyMSIsImRhdGEiOnsiaWQiOjMsIm5vbWJyZV91c3VhcmlvIjoibmljb19kaWF6IiwiY2xhdmUiOiIkMnkkMTAkOXY3QURWQjllRmNKZDNDYXBzYmY0dWhTamsxRHVvRzczeWNFOHNWSmlqR3Y5OW12VGZKTUciLCJlc0FkbWluIjoxLCJ0aXBvX3VzdWFyaW8iOiJBZG1pbiJ9LCJhcHAiOiJUZXN0IEpXVCJ9.RfTUIYsO5gBFELaPJAtmHH5NQmX9uJ7bwqW6lxJmHwY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/tp_comanda/app/usuarios",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"tp_comanda",
+								"app",
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear usuario (admin)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Njk2NDk3NjEsImV4cCI6MjE5NTI0OTc2MSwiYXVkIjoiMGZmODMzNGZjMjJjNDRjNzQ3NzUzYWRjM2U5OWE5OTYxNjY2MzAyMSIsImRhdGEiOnsiaWQiOjMsIm5vbWJyZV91c3VhcmlvIjoibmljb19kaWF6IiwiY2xhdmUiOiIkMnkkMTAkOXY3QURWQjllRmNKZDNDYXBzYmY0dWhTamsxRHVvRzczeWNFOHNWSmlqR3Y5OW12VGZKTUciLCJlc0FkbWluIjoxLCJ0aXBvX3VzdWFyaW8iOiJBZG1pbiJ9LCJhcHAiOiJUZXN0IEpXVCJ9.RfTUIYsO5gBFELaPJAtmHH5NQmX9uJ7bwqW6lxJmHwY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "nombre_usuario",
+									"value": "barman_002",
+									"type": "text"
+								},
+								{
+									"key": "clave",
+									"value": "L5je44CsA*gh",
+									"type": "text"
+								},
+								{
+									"key": "esAdmin",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "tipo_usuario",
+									"value": "Barman",
+									"type": "text"
+								},
+								{
+									"key": "estado",
+									"value": "Activo",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost/tp_comanda/app/usuarios",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"tp_comanda",
+								"app",
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Ordenes",
+			"item": [
+				{
+					"name": "Listar ordenes - Todos (Empleado o Admin)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/tp_comanda/app/ordenes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"tp_comanda",
+								"app",
+								"ordenes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear orden (Mozo o admin)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Njk2NTM0MjEsImV4cCI6MjE5NTI1MzQyMSwiYXVkIjoiMGZmODMzNGZjMjJjNDRjNzQ3NzUzYWRjM2U5OWE5OTYxNjY2MzAyMSIsImRhdGEiOnsiaWQiOjQsIm5vbWJyZV91c3VhcmlvIjoibW96b18wMDEiLCJjbGF2ZSI6IiQyeSQxMCRMclJJOWdwVUw4ZnBGZi43XC93U1MwLm9zU0NwV2JxS1c3ZW00dnpqSlNteGlBUllWS2JsYWEiLCJlc0FkbWluIjowLCJ0aXBvX3VzdWFyaW8iOiJNb3pvIn0sImFwcCI6IlRlc3QgSldUIn0.EWX2-nyuHKzMpZNO_Vf-HEWwrJZJRYGzVYB8q1auOkg",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "descripcion",
+									"value": "Fernet con coca",
+									"type": "text"
+								},
+								{
+									"key": "precio",
+									"value": "1299",
+									"type": "text"
+								},
+								{
+									"key": "area",
+									"value": "3",
+									"type": "text"
+								},
+								{
+									"key": "pedido_id",
+									"value": "4",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost/tp_comanda/app/ordenes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"tp_comanda",
+								"app",
+								"ordenes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modificar estado orden (Empleado o Admin)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Njk2NTM0NzEsImV4cCI6MjE5NTI1MzQ3MSwiYXVkIjoiMGZmODMzNGZjMjJjNDRjNzQ3NzUzYWRjM2U5OWE5OTYxNjY2MzAyMSIsImRhdGEiOnsiaWQiOjcsIm5vbWJyZV91c3VhcmlvIjoiY29jaW5lcm9fMDAyIiwiY2xhdmUiOiIkMnkkMTAkXC8yREFxUk1IT09uVnk2UDFoMEYwXC9lLm1manJLa0lBQUw4YTZjZEJCMzQ4ZUM3VUFDRDd6eSIsImVzQWRtaW4iOjAsInRpcG9fdXN1YXJpbyI6IkNvY2luZXJvIn0sImFwcCI6IlRlc3QgSldUIn0.bIYPX7jCh2vfBcuCTIwyITtEQ4nR3jQqX7S1wmGKRL8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "estado",
+									"value": "Listo para servir",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost/tp_comanda/app/ordenes/12",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"tp_comanda",
+								"app",
+								"ordenes",
+								"12"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modificar tiempo restante orden (Empleado o Admin)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Njk2NTM0NzEsImV4cCI6MjE5NTI1MzQ3MSwiYXVkIjoiMGZmODMzNGZjMjJjNDRjNzQ3NzUzYWRjM2U5OWE5OTYxNjY2MzAyMSIsImRhdGEiOnsiaWQiOjcsIm5vbWJyZV91c3VhcmlvIjoiY29jaW5lcm9fMDAyIiwiY2xhdmUiOiIkMnkkMTAkXC8yREFxUk1IT09uVnk2UDFoMEYwXC9lLm1manJLa0lBQUw4YTZjZEJCMzQ4ZUM3VUFDRDd6eSIsImVzQWRtaW4iOjAsInRpcG9fdXN1YXJpbyI6IkNvY2luZXJvIn0sImFwcCI6IlRlc3QgSldUIn0.bIYPX7jCh2vfBcuCTIwyITtEQ4nR3jQqX7S1wmGKRL8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "estado",
+									"value": "En preparacion",
+									"type": "text"
+								},
+								{
+									"key": "tiempo_estimado",
+									"value": "20",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost/tp_comanda/app/ordenes/11",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"tp_comanda",
+								"app",
+								"ordenes",
+								"11"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Empleados",
+			"item": [
+				{
+					"name": "Listar Empleados - Todos (admin)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Njk2NDk3NjEsImV4cCI6MjE5NTI0OTc2MSwiYXVkIjoiMGZmODMzNGZjMjJjNDRjNzQ3NzUzYWRjM2U5OWE5OTYxNjY2MzAyMSIsImRhdGEiOnsiaWQiOjMsIm5vbWJyZV91c3VhcmlvIjoibmljb19kaWF6IiwiY2xhdmUiOiIkMnkkMTAkOXY3QURWQjllRmNKZDNDYXBzYmY0dWhTamsxRHVvRzczeWNFOHNWSmlqR3Y5OW12VGZKTUciLCJlc0FkbWluIjoxLCJ0aXBvX3VzdWFyaW8iOiJBZG1pbiJ9LCJhcHAiOiJUZXN0IEpXVCJ9.RfTUIYsO5gBFELaPJAtmHH5NQmX9uJ7bwqW6lxJmHwY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/tp_comanda/app/empleados",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"tp_comanda",
+								"app",
+								"empleados"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Empleado (admin)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Njk2NDk3NjEsImV4cCI6MjE5NTI0OTc2MSwiYXVkIjoiMGZmODMzNGZjMjJjNDRjNzQ3NzUzYWRjM2U5OWE5OTYxNjY2MzAyMSIsImRhdGEiOnsiaWQiOjMsIm5vbWJyZV91c3VhcmlvIjoibmljb19kaWF6IiwiY2xhdmUiOiIkMnkkMTAkOXY3QURWQjllRmNKZDNDYXBzYmY0dWhTamsxRHVvRzczeWNFOHNWSmlqR3Y5OW12VGZKTUciLCJlc0FkbWluIjoxLCJ0aXBvX3VzdWFyaW8iOiJBZG1pbiJ9LCJhcHAiOiJUZXN0IEpXVCJ9.RfTUIYsO5gBFELaPJAtmHH5NQmX9uJ7bwqW6lxJmHwY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "nombre",
+									"value": "Cesar",
+									"type": "text"
+								},
+								{
+									"key": "area",
+									"value": "3",
+									"type": "text"
+								},
+								{
+									"key": "nombre_usuario",
+									"value": "barman_002",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost/tp_comanda/app/empleados",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"tp_comanda",
+								"app",
+								"empleados"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Mesa",
+			"item": [
+				{
+					"name": "Crear mesa (admin)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Njk2NDk3NjEsImV4cCI6MjE5NTI0OTc2MSwiYXVkIjoiMGZmODMzNGZjMjJjNDRjNzQ3NzUzYWRjM2U5OWE5OTYxNjY2MzAyMSIsImRhdGEiOnsiaWQiOjMsIm5vbWJyZV91c3VhcmlvIjoibmljb19kaWF6IiwiY2xhdmUiOiIkMnkkMTAkOXY3QURWQjllRmNKZDNDYXBzYmY0dWhTamsxRHVvRzczeWNFOHNWSmlqR3Y5OW12VGZKTUciLCJlc0FkbWluIjoxLCJ0aXBvX3VzdWFyaW8iOiJBZG1pbiJ9LCJhcHAiOiJUZXN0IEpXVCJ9.RfTUIYsO5gBFELaPJAtmHH5NQmX9uJ7bwqW6lxJmHwY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "codigo_mesa",
+									"value": "ME008",
+									"type": "text"
+								},
+								{
+									"key": "estado",
+									"value": "Cerrada",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost/tp_comanda/app/mesas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"tp_comanda",
+								"app",
+								"mesas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modificar estado Mesa (Mozo o admin)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Njk2NTM0MjEsImV4cCI6MjE5NTI1MzQyMSwiYXVkIjoiMGZmODMzNGZjMjJjNDRjNzQ3NzUzYWRjM2U5OWE5OTYxNjY2MzAyMSIsImRhdGEiOnsiaWQiOjQsIm5vbWJyZV91c3VhcmlvIjoibW96b18wMDEiLCJjbGF2ZSI6IiQyeSQxMCRMclJJOWdwVUw4ZnBGZi43XC93U1MwLm9zU0NwV2JxS1c3ZW00dnpqSlNteGlBUllWS2JsYWEiLCJlc0FkbWluIjowLCJ0aXBvX3VzdWFyaW8iOiJNb3pvIn0sImFwcCI6IlRlc3QgSldUIn0.EWX2-nyuHKzMpZNO_Vf-HEWwrJZJRYGzVYB8q1auOkg",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "estado",
+									"value": "Con cliente esperando pedido",
+									"type": "text"
+								},
+								{
+									"key": "id_empleado",
+									"value": "4",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost/tp_comanda/app/mesas/18",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"tp_comanda",
+								"app",
+								"mesas",
+								"18"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar mesas - Todas (Mozo o admin)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Njk2NTM0MjEsImV4cCI6MjE5NTI1MzQyMSwiYXVkIjoiMGZmODMzNGZjMjJjNDRjNzQ3NzUzYWRjM2U5OWE5OTYxNjY2MzAyMSIsImRhdGEiOnsiaWQiOjQsIm5vbWJyZV91c3VhcmlvIjoibW96b18wMDEiLCJjbGF2ZSI6IiQyeSQxMCRMclJJOWdwVUw4ZnBGZi43XC93U1MwLm9zU0NwV2JxS1c3ZW00dnpqSlNteGlBUllWS2JsYWEiLCJlc0FkbWluIjowLCJ0aXBvX3VzdWFyaW8iOiJNb3pvIn0sImFwcCI6IlRlc3QgSldUIn0.EWX2-nyuHKzMpZNO_Vf-HEWwrJZJRYGzVYB8q1auOkg",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost/tp_comanda/app/mesas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"tp_comanda",
+								"app",
+								"mesas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cobrar en Mesa (Mozo o admin)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Njk2NTM0MjEsImV4cCI6MjE5NTI1MzQyMSwiYXVkIjoiMGZmODMzNGZjMjJjNDRjNzQ3NzUzYWRjM2U5OWE5OTYxNjY2MzAyMSIsImRhdGEiOnsiaWQiOjQsIm5vbWJyZV91c3VhcmlvIjoibW96b18wMDEiLCJjbGF2ZSI6IiQyeSQxMCRMclJJOWdwVUw4ZnBGZi43XC93U1MwLm9zU0NwV2JxS1c3ZW00dnpqSlNteGlBUllWS2JsYWEiLCJlc0FkbWluIjowLCJ0aXBvX3VzdWFyaW8iOiJNb3pvIn0sImFwcCI6IlRlc3QgSldUIn0.EWX2-nyuHKzMpZNO_Vf-HEWwrJZJRYGzVYB8q1auOkg",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "estado",
+									"value": "Con cliente pagando",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost/tp_comanda/app/mesas/cobrar/18",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"tp_comanda",
+								"app",
+								"mesas",
+								"cobrar",
+								"18"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pedidos",
+			"item": [
+				{
+					"name": "Listar Pedidos - Todos (Mozo o admin)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Njk2NTM0MjEsImV4cCI6MjE5NTI1MzQyMSwiYXVkIjoiMGZmODMzNGZjMjJjNDRjNzQ3NzUzYWRjM2U5OWE5OTYxNjY2MzAyMSIsImRhdGEiOnsiaWQiOjQsIm5vbWJyZV91c3VhcmlvIjoibW96b18wMDEiLCJjbGF2ZSI6IiQyeSQxMCRMclJJOWdwVUw4ZnBGZi43XC93U1MwLm9zU0NwV2JxS1c3ZW00dnpqSlNteGlBUllWS2JsYWEiLCJlc0FkbWluIjowLCJ0aXBvX3VzdWFyaW8iOiJNb3pvIn0sImFwcCI6IlRlc3QgSldUIn0.EWX2-nyuHKzMpZNO_Vf-HEWwrJZJRYGzVYB8q1auOkg",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost/tp_comanda/app/pedidos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"tp_comanda",
+								"app",
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear pedido (Mozo o admin)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Njk2NTM0MjEsImV4cCI6MjE5NTI1MzQyMSwiYXVkIjoiMGZmODMzNGZjMjJjNDRjNzQ3NzUzYWRjM2U5OWE5OTYxNjY2MzAyMSIsImRhdGEiOnsiaWQiOjQsIm5vbWJyZV91c3VhcmlvIjoibW96b18wMDEiLCJjbGF2ZSI6IiQyeSQxMCRMclJJOWdwVUw4ZnBGZi43XC93U1MwLm9zU0NwV2JxS1c3ZW00dnpqSlNteGlBUllWS2JsYWEiLCJlc0FkbWluIjowLCJ0aXBvX3VzdWFyaW8iOiJNb3pvIn0sImFwcCI6IlRlc3QgSldUIn0.EWX2-nyuHKzMpZNO_Vf-HEWwrJZJRYGzVYB8q1auOkg",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "estado_pedido",
+									"value": "Pendiente",
+									"type": "text"
+								},
+								{
+									"key": "nombre_cliente",
+									"value": "Ricardo",
+									"type": "text"
+								},
+								{
+									"key": "foto_pedido",
+									"type": "file",
+									"src": "/D:/Users/Nicolas/Downloads/pedido.jpg"
+								},
+								{
+									"key": "mesa_id",
+									"value": "18",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost/tp_comanda/app/pedidos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"tp_comanda",
+								"app",
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modificar estado pedido (Mozo o admin)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Njk2NTM0MjEsImV4cCI6MjE5NTI1MzQyMSwiYXVkIjoiMGZmODMzNGZjMjJjNDRjNzQ3NzUzYWRjM2U5OWE5OTYxNjY2MzAyMSIsImRhdGEiOnsiaWQiOjQsIm5vbWJyZV91c3VhcmlvIjoibW96b18wMDEiLCJjbGF2ZSI6IiQyeSQxMCRMclJJOWdwVUw4ZnBGZi43XC93U1MwLm9zU0NwV2JxS1c3ZW00dnpqSlNteGlBUllWS2JsYWEiLCJlc0FkbWluIjowLCJ0aXBvX3VzdWFyaW8iOiJNb3pvIn0sImFwcCI6IlRlc3QgSldUIn0.EWX2-nyuHKzMpZNO_Vf-HEWwrJZJRYGzVYB8q1auOkg",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "estado_pedido",
+									"value": "Listo para servir",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost/tp_comanda/app/pedidos/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"tp_comanda",
+								"app",
+								"pedidos",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cliente",
+			"item": [
+				{
+					"name": "Traer demora de pedido",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/tp_comanda/app/cliente/ME007/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"tp_comanda",
+								"app",
+								"cliente",
+								"ME007",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Escribir reseña",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id_pedido",
+									"value": "4",
+									"type": "text"
+								},
+								{
+									"key": "mesa_puntuacion",
+									"value": "6",
+									"type": "text"
+								},
+								{
+									"key": "restaurante_puntuacion",
+									"value": "8",
+									"type": "text"
+								},
+								{
+									"key": "mozo_puntuacion",
+									"value": "10",
+									"type": "text"
+								},
+								{
+									"key": "cocinero_puntuacion",
+									"value": "9",
+									"type": "text"
+								},
+								{
+									"key": "comentario",
+									"value": "La mesa parecia la de los argento, pero la comida buenisima!",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost/tp_comanda/app/cliente/encuesta/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"tp_comanda",
+								"app",
+								"cliente",
+								"encuesta",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Administracion",
+			"item": [
+				{
+					"name": "Mejores encuestas",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Njk2NDk3NjEsImV4cCI6MjE5NTI0OTc2MSwiYXVkIjoiMGZmODMzNGZjMjJjNDRjNzQ3NzUzYWRjM2U5OWE5OTYxNjY2MzAyMSIsImRhdGEiOnsiaWQiOjMsIm5vbWJyZV91c3VhcmlvIjoibmljb19kaWF6IiwiY2xhdmUiOiIkMnkkMTAkOXY3QURWQjllRmNKZDNDYXBzYmY0dWhTamsxRHVvRzczeWNFOHNWSmlqR3Y5OW12VGZKTUciLCJlc0FkbWluIjoxLCJ0aXBvX3VzdWFyaW8iOiJBZG1pbiJ9LCJhcHAiOiJUZXN0IEpXVCJ9.RfTUIYsO5gBFELaPJAtmHH5NQmX9uJ7bwqW6lxJmHwY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost/tp_comanda/app/admin/mejores-encuestas/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"tp_comanda",
+								"app",
+								"admin",
+								"mejores-encuestas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reportes",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Njk2NDk3NjEsImV4cCI6MjE5NTI0OTc2MSwiYXVkIjoiMGZmODMzNGZjMjJjNDRjNzQ3NzUzYWRjM2U5OWE5OTYxNjY2MzAyMSIsImRhdGEiOnsiaWQiOjMsIm5vbWJyZV91c3VhcmlvIjoibmljb19kaWF6IiwiY2xhdmUiOiIkMnkkMTAkOXY3QURWQjllRmNKZDNDYXBzYmY0dWhTamsxRHVvRzczeWNFOHNWSmlqR3Y5OW12VGZKTUciLCJlc0FkbWluIjoxLCJ0aXBvX3VzdWFyaW8iOiJBZG1pbiJ9LCJhcHAiOiJUZXN0IEpXVCJ9.RfTUIYsO5gBFELaPJAtmHH5NQmX9uJ7bwqW6lxJmHwY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost/tp_comanda/app/admin/reportes/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"tp_comanda",
+								"app",
+								"admin",
+								"reportes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Escritura Logs CSV",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Njk2NDk3NjEsImV4cCI6MjE5NTI0OTc2MSwiYXVkIjoiMGZmODMzNGZjMjJjNDRjNzQ3NzUzYWRjM2U5OWE5OTYxNjY2MzAyMSIsImRhdGEiOnsiaWQiOjMsIm5vbWJyZV91c3VhcmlvIjoibmljb19kaWF6IiwiY2xhdmUiOiIkMnkkMTAkOXY3QURWQjllRmNKZDNDYXBzYmY0dWhTamsxRHVvRzczeWNFOHNWSmlqR3Y5OW12VGZKTUciLCJlc0FkbWluIjoxLCJ0aXBvX3VzdWFyaW8iOiJBZG1pbiJ9LCJhcHAiOiJUZXN0IEpXVCJ9.RfTUIYsO5gBFELaPJAtmHH5NQmX9uJ7bwqW6lxJmHwY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost/tp_comanda/app/archivos/escritura",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"tp_comanda",
+								"app",
+								"archivos",
+								"escritura"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lectura a DB Logs CSV",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Njk2NDk3NjEsImV4cCI6MjE5NTI0OTc2MSwiYXVkIjoiMGZmODMzNGZjMjJjNDRjNzQ3NzUzYWRjM2U5OWE5OTYxNjY2MzAyMSIsImRhdGEiOnsiaWQiOjMsIm5vbWJyZV91c3VhcmlvIjoibmljb19kaWF6IiwiY2xhdmUiOiIkMnkkMTAkOXY3QURWQjllRmNKZDNDYXBzYmY0dWhTamsxRHVvRzczeWNFOHNWSmlqR3Y5OW12VGZKTUciLCJlc0FkbWluIjoxLCJ0aXBvX3VzdWFyaW8iOiJBZG1pbiJ9LCJhcHAiOiJUZXN0IEpXVCJ9.RfTUIYsO5gBFELaPJAtmHH5NQmX9uJ7bwqW6lxJmHwY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost/tp_comanda/app/archivos/lectura",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"tp_comanda",
+								"app",
+								"archivos",
+								"lectura"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login - Usuario",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "nombre_usuario",
+							"value": "barman_002",
+							"type": "text"
+						},
+						{
+							"key": "clave",
+							"value": "L5je44CsA*gh",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/tp_comanda/app/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"tp_comanda",
+						"app",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

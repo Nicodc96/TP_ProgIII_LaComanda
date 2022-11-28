@@ -73,7 +73,7 @@ $app->group('/pedidos', function (RouteCollectorProxy $group) {
   $group->get('/listar/tiempo', \PedidoController::class . ':TraerPedidosTiempo')->add(\MWAcceso::class . ':esAdmin');
   $group->post('[/]', \PedidoController::class . ':CargarUno')->add(\MWAcceso::class . ':esMozo');
   $group->delete('/{id_pedido}', \PedidoController::class . ':BorrarUno')->add(\MWAcceso::class . ':esAdmin');
-  $group->put('/{id_pedido}', \PedidoController::class . ':ModificarUno')->add(\MWAcceso::class . ':esEmpleado');
+  $group->put('/{id_pedido}', \PedidoController::class . ':ModificarUno')->add(\MWAcceso::class . ':esMozo');
 });
 
 /* RUTAS - ORDENES */
@@ -82,7 +82,7 @@ $app->group('/ordenes', function (RouteCollectorProxy $group) {
   $group->get('/{id_orden}', \OrdenController::class . ':TraerUno')->add(\MWAcceso::class . ':esEmpleado');
   $group->post('[/]', \OrdenController::class . ':CargarUno')->add(\MWAcceso::class . ':esMozo');
   $group->delete('/{id_orden}', \OrdenController::class . ':BorrarUno')->add(\MWAcceso::class . ':esAdmin');
-  $group->put('/{id_pedido}', \OrdenController::class . ':ModificarUno')->add(\MWAcceso::class . ':esEmpleado');
+  $group->put('/{id_orden}', \OrdenController::class . ':ModificarUno')->add(\MWAcceso::class . ':esEmpleado');
 });
 
 /* RUTAS - MESAS */
@@ -99,7 +99,7 @@ $app->group('/mesas', function (RouteCollectorProxy $group) {
 /* RUTAS - CLIENTE */
 $app->group('/cliente', function (RouteCollectorProxy $group) {
   $group->get('/{codigo_mesa}/{pedido_id}', \MesaController::class . ':TraerDemoraPedidoMesa');
-  $group->post('/encuesta', \EncuestaController::class . ':CrearEncuesta');
+  $group->post('/encuesta[/]', \EncuestaController::class . ':CrearEncuestaController');
 });
 
 /* RUTAS - LOGIN */
@@ -109,8 +109,8 @@ $app->group('/login', function (RouteCollectorProxy $group) {
 
 /* RUTAS - ADMINISTRACION */
 $app->group('/admin', function (RouteCollectorProxy $group) {
-  $group->post('/mejores-encuestas[/]', \EncuestaController::class . ':ObtenerMejoresEncuestas');
-  $group->post('/reportes[/]', \ArchivoController::class . ':DescargarPDF');
+  $group->get('/mejores-encuestas/{cantidad}', \EncuestaController::class . ':ObtenerMejoresEncuestasController');
+  $group->get('/reportes/{cantidad_encuestas}', \ArchivoController::class . ':DescargarPDF');
 })->add(\MWAcceso::class . ':esAdmin');
 
 /* RUTAS - CARGA CSV */
@@ -126,15 +126,3 @@ $app->get('[/]', function (Request $request, Response $response) {
 });
 
 $app->run();
-
-// TAREAS PENDIENTES
-/*
-  - TERMINAR MODELS - listo
-  - TERMINAR CONTROLLERS - listo
-  - TERMINAR MIDDLEWARES - listo
-  - TERMINAR INDEX - listo
-  - TERMINAR BASE DE DATOS - listo
-  - TESTEAR TODO
-  - PROBAR PDF Y LOGS
-  - COMPLETAR POSTMAN
-*/

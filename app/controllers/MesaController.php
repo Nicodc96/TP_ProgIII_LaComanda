@@ -8,12 +8,12 @@ class MesaController extends Mesa implements IApiUsable{
     public function CargarUno($request, $response, $args){
         $params = $request->getParsedBody();
 
-        $mesa = Mesa::crearMesa($params["codigo_mesa"], $params["id_empleado"], $params["estado"]);
+        $mesa = Mesa::crearMesa($params["codigo_mesa"], NULL, $params["estado"]);
         $payload = json_encode(array("mensaje" => "Error al registrar la mesa."));
 
         if (Mesa::insertarMesaDB($mesa) > 0){
             echo Mesa::mostrarMesaTabla($mesa);
-            $payload = json_encode(array("mensaje" => "Mesa registrado con exito."));
+            $payload = json_encode(array("mensaje" => "Mesa registrada con exito."));
         }
   
         $response->getBody()->write($payload);
@@ -35,6 +35,7 @@ class MesaController extends Mesa implements IApiUsable{
 
     public function TraerTodos($request, $response, $args){
         $listaMesas = Mesa::obtenerTodos();
+        echo Mesa::mostrarMesasTabla() . "<br>";
         $payload = json_encode(array("lista_de_mesas" => $listaMesas));
 
         $response->getBody()->write($payload);
@@ -58,12 +59,12 @@ class MesaController extends Mesa implements IApiUsable{
 	public function ModificarUno($request, $response, $args){
         $params = $request->getParsedBody();
 
-        if (isset($args["id"]) && isset($params["estado"]) && isset($params["id_empleado"])){
-            $mesa_id = $args["id"];
+        if (isset($args["id_mesa"]) && isset($params["estado"]) && isset($params["id_empleado"])){
+            $mesa_id = $args["id_mesa"];
             $id_empleado = $params["id_empleado"];
             $estado = $params["estado"];
             $empleado = Empleado::obtenerEmpleadoPorId($id_empleado);
-
+            
             if (isset($empleado) && strcmp($estado, "Cerrada") != 0){
                 $mesa = Mesa::obtenerMesaPorId($mesa_id);
                 $mesa->estado = $estado;
@@ -94,16 +95,20 @@ class MesaController extends Mesa implements IApiUsable{
             $id_mesa = $args["id_mesa"];
             $estado_mesa = $params["estado"];
             $mesa = Mesa::obtenerMesaPorId($id_mesa);
+            $pedido = Pedido::obtenerPedidoPorIdMesa($id_mesa);
 
             echo "Mesa a cobrar: <br>";
             echo Mesa::mostrarMesaTabla($mesa);
 
-            if (isset($mesa)){
+            if (isset($mesa) && isset($pedido)){
                 $mesa->estado = $estado_mesa;
+                $pedido->estado_pedido = "Entregado";
                 echo "Mesa actualizada: <br>";
                 echo Mesa::mostrarMesaTabla($mesa);
-                if (Mesa::actualizarEstadoMesa($mesa, $estado_mesa)){
-                    $payload = json_encode(array("mensaje" => "Se ha actualizado la mesa correctamente."));
+                echo "<br>Pedido actualizado: <br>";
+                echo Pedido::mostrarPedidoTabla($pedido);
+                if (Mesa::actualizarEstadoMesa($mesa, $estado_mesa) && Pedido::actualizarEstadoPedido($pedido) > 0){
+                    $payload = json_encode(array("mensaje" => "Se ha actualizado la mesa y el pedido correctamente."));
                 }
             }
         }

@@ -49,7 +49,7 @@ class Pedido{
         if (count($arrayPedidos) == 0){
             $arrayPedidos = self::obtenerTodos();
         }
-        $mensaje = "Lista vacia.";
+        $mensaje = "Lista vacia.<br>";
         if (is_array($arrayPedidos) && count($arrayPedidos) > 0){
             $mensaje = "<h3 align='center'> Lista de Pedidos </h3>";
             $mensaje .= "<table align='center'><thead><tr><th>ID</th><th>Mesa ID</th><th>Estado Pedido</th><th>Nombre cliente</th><th>Costo</th><th>Foto Pedido</th></tr><tbody>";
@@ -202,6 +202,20 @@ class Pedido{
         try{
             $consulta->bindValue(":estado", $pedidoParam->estado_pedido, PDO::PARAM_STR);
             $consulta->bindValue(":costo", $pedidoParam->costo_pedido, PDO::PARAM_STR);
+            $consulta->bindValue(":id", $pedidoParam->id, PDO::PARAM_INT);
+            $consulta->execute();
+        }catch(\Throwable $err){
+            echo $err->getMessage();
+        }
+        return $consulta->rowCount() > 0;
+    }
+
+    public static function actualizarEstadoPedido($pedidoParam){
+        $objAccesoDato = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDato->prepararConsulta("UPDATE pedidos 
+        SET estado_pedido = :estado WHERE id = :id");
+        try{
+            $consulta->bindValue(":estado", $pedidoParam->estado_pedido, PDO::PARAM_STR);
             $consulta->bindValue(":id", $pedidoParam->id, PDO::PARAM_INT);
             $consulta->execute();
         }catch(\Throwable $err){

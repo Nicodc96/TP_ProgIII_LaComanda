@@ -17,7 +17,7 @@ class PedidoController extends Pedido implements IApiUsable{
             $mesa_id,
             $params["estado_pedido"],
             $params["nombre_cliente"],
-            $params["costo_pedido"],
+            0,
             ""
         );
 
@@ -40,7 +40,8 @@ class PedidoController extends Pedido implements IApiUsable{
         ->withHeader("Content-Type", "application/json");
     }
     public function TraerUno($request, $response, $args){
-        $pedido = Pedido::obtenerPedidoPorId($args["id_pedido"]);        
+        $pedido = Pedido::obtenerPedidoPorId($args["id_pedido"]);   
+        echo Pedido::mostrarPedidoTabla($pedido) . "<br>";     
         $payload = json_encode($pedido);
 
         $response->getBody()->write($payload);
@@ -50,6 +51,7 @@ class PedidoController extends Pedido implements IApiUsable{
 
     public function TraerTodos($request, $response, $args){
         $listaPedidos = Pedido::obtenerTodos();
+        echo Pedido::mostrarPedidosTabla() . "<br>";
         $payload = json_encode(array("lista_de_pedidos" => $listaPedidos));
 
         $response->getBody()->write($payload);
@@ -100,7 +102,6 @@ class PedidoController extends Pedido implements IApiUsable{
         $mensaje = "No se ha podido modificar el pedido";
         if ($pedido){
             $pedido->estado_pedido = $params["estado_pedido"];
-            $pedido->costo_pedido = Orden::obtenerPrecioDeOrdenesPorPedido($pedido->id);
             if (Pedido::actualizarPedido($pedido)){
               $mensaje = "Pedido modificado con exito";
               echo Pedido::mostrarPedidoTabla($pedido);
