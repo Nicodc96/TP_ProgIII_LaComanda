@@ -74,7 +74,7 @@ class PedidoController extends Pedido implements IApiUsable{
     public function TraerPedidosTiempo($request, $response, $args){
         $pedidos = Pedido::obtenerPedidosConTiempo();
 
-        echo Pedido::mostrarPedidosConTiempoTabla($pedidos);
+        echo Pedido::mostrarPedidosConTiempoTabla($pedidos) . "<br><br>";
         $payload = json_encode(array("lista_pedidos" => $pedidos));
 
         $response->getBody()->write($payload);

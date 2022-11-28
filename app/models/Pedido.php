@@ -80,7 +80,7 @@ class Pedido{
                 "<td>" . $pedido->nombre_cliente . "</td>" .
                 "<td>" . $pedido->costo_pedido . "</td>" .
                 "<td>" . $pedido->foto_pedido . "</td>" .
-                "<td>" . $pedido->tiempo_estimado . "</td></tr>";
+                "<td>" . $pedido->tiempo_estimado . " minutos</td></tr>";
             }
             $mensaje .= "</tbody></table>";
         }

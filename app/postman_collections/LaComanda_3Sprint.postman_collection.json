@@ -108,7 +108,13 @@
 					"name": "Listar ordenes - Todos (Empleado o Admin)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Njk2NTM0NzEsImV4cCI6MjE5NTI1MzQ3MSwiYXVkIjoiMGZmODMzNGZjMjJjNDRjNzQ3NzUzYWRjM2U5OWE5OTYxNjY2MzAyMSIsImRhdGEiOnsiaWQiOjcsIm5vbWJyZV91c3VhcmlvIjoiY29jaW5lcm9fMDAyIiwiY2xhdmUiOiIkMnkkMTAkXC8yREFxUk1IT09uVnk2UDFoMEYwXC9lLm1manJLa0lBQUw4YTZjZEJCMzQ4ZUM3VUFDRDd6eSIsImVzQWRtaW4iOjAsInRpcG9fdXN1YXJpbyI6IkNvY2luZXJvIn0sImFwcCI6IlRlc3QgSldUIn0.bIYPX7jCh2vfBcuCTIwyITtEQ4nR3jQqX7S1wmGKRL8",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "http://localhost/tp_comanda/app/ordenes",
 							"protocol": "http",
@@ -808,6 +814,34 @@
 								"app",
 								"archivos",
 								"lectura"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar pedidos con tiempo",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Njk2NDk3NjEsImV4cCI6MjE5NTI0OTc2MSwiYXVkIjoiMGZmODMzNGZjMjJjNDRjNzQ3NzUzYWRjM2U5OWE5OTYxNjY2MzAyMSIsImRhdGEiOnsiaWQiOjMsIm5vbWJyZV91c3VhcmlvIjoibmljb19kaWF6IiwiY2xhdmUiOiIkMnkkMTAkOXY3QURWQjllRmNKZDNDYXBzYmY0dWhTamsxRHVvRzczeWNFOHNWSmlqR3Y5OW12VGZKTUciLCJlc0FkbWluIjoxLCJ0aXBvX3VzdWFyaW8iOiJBZG1pbiJ9LCJhcHAiOiJUZXN0IEpXVCJ9.RfTUIYsO5gBFELaPJAtmHH5NQmX9uJ7bwqW6lxJmHwY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost/tp_comanda/app/pedidos/listar/tiempo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"tp_comanda",
+								"app",
+								"pedidos",
+								"listar",
+								"tiempo"
 							]
 						}
 					},
