@@ -1,5 +1,17 @@
-Aplicación Slim Framework v4.10 PHP - La comanda
-===================================
+Programación III - División 3°D - TP "La comanda"
+==============================
+<div align="center"><img src="https://i.ibb.co/XWTqXZ8/logoutn.png" alt="logoUTN"></div>
+
+## Información
+Aquí alojo el segundo parcial realizado durante mi cursada en la materia `Laboratorio de Computación III`, año 2022.
+
+### Datos personales
+* **Nombre**: Lautaro N. Díaz
+* **DNI**: 39468894
+* **Legajo**: 109288
+* **Lenguaje Utilizado**: <a href="https://www.php.net/manual/es/index.php"><img src="https://github.com/devicons/devicon/blob/master/icons/php/php-original.svg" width="24px" height="24px" align="center"/>PHP</a>
+* **Tecnologías**: <a href="https://www.mysql.com/"><img src="https://github.com/devicons/devicon/blob/master/icons/mysql/mysql-original.svg" width="24px" height="24px" align="center"/>MySQL</a>, <a href="https://www.slimframework.com/"><img src="https://i.ibb.co/ZmhyhrQ/plugin-Icon.png" width="24px" height="24px" align="center"/>Slim Framework</a>, <a href="https://getcomposer.org/"><img src="https://github.com/devicons/devicon/blob/master/icons/composer/composer-original.svg" width="24px" height="24px" align="center"/>Composer</a>
+* **Nota obtenida**: 8
 
 ## Introducción
 El principal objetivo de este repositorio es para la entrega del trabajo práctico integrador de la cursada.
@@ -159,8 +171,5 @@ MYSQL_USER=elcNx8VTCx (campo "Username" de los datos que guardamos al crear la b
 MYSQL_PASS=1234 (campo "Password" de los datos que guardamos al crear la base en remotemysql.com)
 MYSQL_DB=elcNx8VTCx (campo "Database Name" de los datos que guardamos al crear la base en remotemysql.com)
 ```
-
-## Alumno
-Diaz, Lautaro Nicolás. 3°D, 2C2022
 
 ### 2022 - UTN FRA
