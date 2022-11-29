@@ -25,12 +25,11 @@ class PedidoController extends Pedido implements IApiUsable{
         $pedido_id = Pedido::insertarPedidoDB($pedido);
 
         if ($pedido_id > 0){
-            $payload = json_encode(array("mensaje" => "Pedido registrado con exito."));
             $file_manager = new UploadManager($carpetaImg, $pedido_id, $_FILES);
             $pedido = Pedido::obtenerPedidoPorId($pedido_id);
             $pedido->foto_pedido = UploadManager::getOrderImageNameExt($file_manager, $pedido_id);
             Pedido::actualizarFoto($pedido);
-            echo Pedido::mostrarPedidoTabla($pedido);
+            $payload = json_encode(array("mensaje" => "Pedido registrado con exito. Se ha actualizado la foto del pedido."));
         } else{
           $payload = json_encode(array("mensaje" => "Error al registrar el pedido."));
         }
@@ -40,8 +39,7 @@ class PedidoController extends Pedido implements IApiUsable{
         ->withHeader("Content-Type", "application/json");
     }
     public function TraerUno($request, $response, $args){
-        $pedido = Pedido::obtenerPedidoPorId($args["id_pedido"]);   
-        echo Pedido::mostrarPedidoTabla($pedido) . "<br>";     
+        $pedido = Pedido::obtenerPedidoPorId($args["id_pedido"]);
         $payload = json_encode($pedido);
 
         $response->getBody()->write($payload);
@@ -51,7 +49,6 @@ class PedidoController extends Pedido implements IApiUsable{
 
     public function TraerTodos($request, $response, $args){
         $listaPedidos = Pedido::obtenerTodos();
-        echo Pedido::mostrarPedidosTabla() . "<br>";
         $payload = json_encode(array("lista_de_pedidos" => $listaPedidos));
 
         $response->getBody()->write($payload);
@@ -63,7 +60,6 @@ class PedidoController extends Pedido implements IApiUsable{
         $tipo_usuario = UsuarioController::obtenerInfoToken($request)->tipo_usuario;
         
         $ordenes = Orden::obtenerOrdenesPorTipoUsuario($tipo_usuario);
-        echo Orden::mostrarOrdenesTabla($ordenes);
         $payload = json_encode(array("lista_de_ordenes" => $ordenes));
 
         $response->getBody()->write($payload);
@@ -74,7 +70,6 @@ class PedidoController extends Pedido implements IApiUsable{
     public function TraerPedidosTiempo($request, $response, $args){
         $pedidos = Pedido::obtenerPedidosConTiempo();
 
-        echo Pedido::mostrarPedidosConTiempoTabla($pedidos) . "<br><br>";
         $payload = json_encode(array("lista_pedidos" => $pedidos));
 
         $response->getBody()->write($payload);
@@ -104,7 +99,6 @@ class PedidoController extends Pedido implements IApiUsable{
             $pedido->estado_pedido = $params["estado_pedido"];
             if (Pedido::actualizarPedido($pedido)){
               $mensaje = "Pedido modificado con exito";
-              echo Pedido::mostrarPedidoTabla($pedido);
             }
         }
         $payload = json_encode(array("mensaje" => $mensaje));

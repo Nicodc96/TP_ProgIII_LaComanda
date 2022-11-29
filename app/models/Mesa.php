@@ -39,41 +39,6 @@ class Mesa{
         return $consulta->fetchAll(PDO::FETCH_CLASS, "Mesa");
     }
 
-    public static function mostrarMesasTabla($arrayMesas = array()){
-        if (count($arrayMesas) == 0){
-            $arrayMesas = self::obtenerTodos();
-        }
-        $mensaje = "Lista vacia.<br>";
-        if (is_array($arrayMesas) && count($arrayMesas) > 0){
-            $mensaje = "<h3 align='center'> Lista de Mesas </h3>";
-            $mensaje .= "<table align='center'><thead><tr><th>ID</th><th>Codigo</th><th>ID Empleado Asociado</th><th>Estado</th></tr><tbody>";
-            foreach($arrayMesas as $mesa){
-                $mensaje .= "<tr align='center'>" .
-                "<td>" . $mesa->id . "</td>" .
-                "<td>" . $mesa->codigo_mesa . "</td>" .
-                "<td>" . $mesa->id_empleado . "</td>" .
-                "<td>" . $mesa->estado . "</td></tr>";
-            }
-            $mensaje .= "</tbody></table>";
-        }
-        return $mensaje;
-    }
-
-    public static function mostrarMesaTabla($mesa){
-        $mensaje = "Lista vacia.";
-        if (is_a($mesa, "Mesa")){
-            $mensaje = "<h3 align='center'> Lista de Mesas </h3>";
-            $mensaje .= "<table align='center'><thead><tr><th>ID</th><th>Codigo</th><th>ID Empleado Asociado</th><th>Estado</th></tr><tbody>";
-            $mensaje .= "<tr align='center'>" .
-            "<td>" . $mesa->id . "</td>" .
-            "<td>" . $mesa->codigo_mesa . "</td>" .
-            "<td>" . $mesa->id_empleado . "</td>" .
-            "<td>" . $mesa->estado . "</td></tr>";
-            $mensaje .= "</tbody></table>";
-        }
-        return $mensaje;
-    }
-
     public static function obtenerMesaPorId($mesaId){
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM mesas WHERE id = :id");

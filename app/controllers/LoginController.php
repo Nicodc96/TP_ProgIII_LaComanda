@@ -9,7 +9,6 @@ class LoginController extends Usuario{
         $clave = $params["clave"];
         
         $usuario = Usuario::obtenerUsuarioPorUsername($nombre_usuario);
-        echo Usuario::mostrarUsuarioTabla($usuario);
         $payload = json_encode(array("error" => "Datos del usuario invalidos. Chequee nombre de usuario y contraseña."));
         
         if(!is_null($usuario)){

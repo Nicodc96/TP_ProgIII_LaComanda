@@ -34,51 +34,6 @@ class Encuesta{
         $this->puntuacion_promedio = $ptn_promedio;
     }
 
-    public static function mostrarEncuestasTabla($array_encuestas = array()){
-        if (count($array_encuestas) <= 0){
-            $array_encuestas = self::obtenerTodos();
-        }
-        $mensaje = "Lista vacia.<br>";
-        if (is_array($array_encuestas) && count($array_encuestas) > 0){
-            $mensaje = "<h3 align='center'> Lista de Encuestas </h3>";
-            $mensaje .= "<table align='center'><thead><tr><th>ID</th><th>ID Pedido</th><th>Mesa Points</th><th>Restaurante Points</th><th>Mozo Points</th><th>Cocinero Points</th><th>Puntuacion promedio</th></tr><tbody>";
-            foreach($array_encuestas as $encuesta){
-                $mensaje .= "<tr align='center'>" .
-                "<td>" . $encuesta->id . "</td>" .
-                "<td>" . $encuesta->pedido_id . "</td>" .
-                "<td>" . $encuesta->mesa_puntuacion . "</td>" .
-                "<td>" . $encuesta->restaurante_puntuacion . "</td>" .
-                "<td>" . $encuesta->mozo_puntuacion . "</td>" .
-                "<td>" . $encuesta->cocinero_puntuacion . "</td>" .
-                "<td><strong>" . $encuesta->puntuacion_promedio . "</strong></td></tr>";
-                $mensaje .= "<th colspan='7' align='center'> Comentario </th>";
-                $mensaje .= "<tr><td colspan='7' align='center'>" . $encuesta->comentario . "</td></tr>";
-            }
-            $mensaje .= "</tbody></table>";
-        }
-        return $mensaje;
-    }
-
-    public static function mostrarEncuestaTabla($encuesta){
-        $mensaje = "El objeto enviado por parametro no es una encuesta.";
-        if (is_a($encuesta, "Encuesta")){
-            $mensaje = "<h3 align='center'> Lista de Encuestas </h3>";
-            $mensaje .= "<table align='center'><thead><tr><th>ID</th><th>Usuario ID</th><th>Nombre</th><th>ID Area Trabajo</th><th>Fecha Alta</th><th>Fecha Baja</th></tr><tbody>";
-            $mensaje .= "<tr align='center'>" .
-            "<td>" . $encuesta->id . "</td>" .
-            "<td>" . $encuesta->pedido_id . "</td>" .
-            "<td>" . $encuesta->mesa_puntuacion . "</td>" .
-            "<td>" . $encuesta->restaurante_puntuacion . "</td>" .
-            "<td>" . $encuesta->mozo_puntuacion . "</td>" .
-            "<td>" . $encuesta->cocinero_puntuacion . "</td>" .
-            "<td><strong>" . $encuesta->puntuacion_promedio . "</strong></td></tr>";
-            $mensaje .= "<th colspan='7' align='center'> Comentario </th>";
-            $mensaje .= "<tr><td colspan='7' align='center'>" . $encuesta->comentario . "</td></tr>";
-            $mensaje .= "</tbody></table>";
-        }
-        return $mensaje;
-    }
-
     public static function insertarEncuestaDB($encuesta){
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO encuestas (pedido_id, mesa_puntuacion, restaurante_puntuacion, mozo_puntuacion, cocinero_puntuacion, puntuacion_promedio, comentario)

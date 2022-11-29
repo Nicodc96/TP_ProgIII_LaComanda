@@ -38,9 +38,6 @@ class OrdenController extends Orden implements IApiUsable{
                 array_push($ordenes_pendientes, $orden);
             }
         }
-        echo "Ordenes pendientes de los empleados " . $tipo_empleado . " <br>";
-        echo Orden::mostrarOrdenesTabla($ordenes_pendientes);
-        echo "<br>Ordenes totales: <br>";
         $payload = json_encode(array("ordenes_pendientes" => $ordenes));
 
         $response->getBody()->write($payload);
@@ -61,8 +58,6 @@ class OrdenController extends Orden implements IApiUsable{
             $params["descripcion"],
             $params["precio"],
             date("Y-m-d H:i:s"));
-        echo "Orden creado: <br>";
-        echo Orden::mostrarOrdenTabla($orden);
         
         $payload = json_encode(array("error" => "Hubo un problema al ingresar la orden. No se ha podido actualizar el pedido."));
         if (!is_null($pedido) && Orden::insertarOrdenDB($orden) > 0){
@@ -70,9 +65,6 @@ class OrdenController extends Orden implements IApiUsable{
              $pedido->costo_pedido = $pedido_costo[0]->total;
              $payload = json_encode(array("mensaje" => "No se ha podido actualizar el pedido."));
              if (Pedido::actualizarPedido($pedido) > 0){
-                echo "<br> Se ha actualizado el precio del pedido: <br>";
-                echo Pedido::mostrarPedidoTabla($pedido);
-
                 $payload = json_encode(array("nueva_orden" => $orden, "pedido_relacionado" => $pedido->id));
              }
         }
@@ -103,9 +95,6 @@ class OrdenController extends Orden implements IApiUsable{
             $orden = Orden::obtenerOrdenPorId($id_orden);
             $pedido = Pedido::obtenerPedidoPorId($orden->id_pedido);
 
-            echo "Orden a ser modificada: <br>";
-            echo Orden::mostrarOrdenTabla($orden);
-
             $orden->estado = $estado_orden;
             $payload = json_encode(array("mensaje" => "No se han hechos cambios en la orden."));
         }
@@ -117,8 +106,6 @@ class OrdenController extends Orden implements IApiUsable{
 
         if (isset($orden)){
             echo "<br>La orden de ID " . $orden->id . " ha cambiado su estado a: " . $orden->estado . "<br>";
-            echo "<br>Orden modificada: <br>";
-            echo Orden::mostrarOrdenTabla($orden);
         }
 
         if (isset($params["tiempo_estimado"])){
@@ -143,9 +130,6 @@ class OrdenController extends Orden implements IApiUsable{
             }
             $ordenes = Orden::obtenerOrdenesPorPedido($orden->id_pedido);
             $ordenes_terminadas = Orden::filtrarOrdenesTerminadas($ordenes, "Listo para servir");
-
-            echo "Ordenes terminadas: <br>";
-            echo Orden::mostrarOrdenesTabla($ordenes_terminadas);
 
             if (count($ordenes) == count($ordenes_terminadas)){
                 $orden->estado = $estado_orden;

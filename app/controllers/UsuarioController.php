@@ -15,9 +15,6 @@ class UsuarioController extends Usuario implements IApiUsable{
           $params["tipo_usuario"],
           $params["estado"],
           date("Y-m-d H:i:s"));
-        
-        echo "Usuario a cargar: <br>";
-        echo Usuario::mostrarUsuarioTabla($usuario);
 
         if (Usuario::insertarUsuarioDB($usuario) > 0){
           $payload = json_encode(array("mensaje" => "Usuario registrado con exito."));
@@ -29,8 +26,7 @@ class UsuarioController extends Usuario implements IApiUsable{
     }
 
     public function TraerUno($request, $response, $args){
-        $usuario = Usuario::obtenerUsuarioPorId($args["id_usuario"]);     
-        echo Usuario::mostrarUsuarioTabla($usuario);
+        $usuario = Usuario::obtenerUsuarioPorId($args["id_usuario"]);
         $payload = json_encode($usuario);
 
         $response->getBody()->write($payload);
@@ -40,7 +36,6 @@ class UsuarioController extends Usuario implements IApiUsable{
 
     public function TraerTodos($request, $response, $args){
         $listaUsuarios = Usuario::obtenerTodos();
-        echo Usuario::mostrarUsuariosTabla($listaUsuarios);
         $payload = json_encode(array("lista_de_usuarios" => $listaUsuarios));
 
         $response->getBody()->write($payload);

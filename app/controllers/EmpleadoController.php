@@ -18,9 +18,6 @@ class EmpleadoController extends Empleado implements IApiUsable{
 
 	public function TraerTodos($request, $response, $args) {
         $array_empleados = Empleado::obtenerTodos();
-        echo "Lista Empleados: <br>";
-        echo Empleado::mostrarEmpleadosTabla($array_empleados);
-
         $payload = json_encode(array("lista_empleados" => $array_empleados));
 
         $response->getBody()->write($payload);
@@ -37,9 +34,6 @@ class EmpleadoController extends Empleado implements IApiUsable{
         $area_empleado  = Area::obtenerAreasPorDescripcion($area_empleado);
         $idUsuario_empleado = Usuario::obtenerUsuarioPorUsername($usuario_empleado)->id;
         $nuevo_empleado = Empleado::crearEmpleado($idUsuario_empleado, $area_empleado->id, $nombre_empleado, date("Y-m-d H:i:s"));
-        
-        echo "Empleado a crear:<br>";
-        echo Empleado::mostrarEmpleadoTabla($nuevo_empleado);
 
         if (Empleado::insertarEmpleadoDB($nuevo_empleado) > 0) {
             $payload = json_encode(array("mensaje" => "Empleado creado exitosamente!"));

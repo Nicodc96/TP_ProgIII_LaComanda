@@ -62,50 +62,6 @@ class Orden{
         return $consulta->fetchAll(PDO::FETCH_CLASS, "Orden");
     }
 
-
-    public static function mostrarOrdenesTabla($arrayOrdenes = array()){
-        if (count($arrayOrdenes) == 0){
-            $arrayOrdenes = self::obtenerTodos();
-        }
-        $mensaje = "Lista vacia.<br>";
-        if (is_array($arrayOrdenes) && count($arrayOrdenes) > 0){
-            $mensaje = "<h3 align='center'> Lista de Ordenes </h3>";
-            $mensaje .= "<table align='center'><thead><tr><th>ID</th><th>Area Asociada</th><th>ID Pedido</th><th>Estado</th><th>Descripcion</th><th>Tiempo inicio</th><th>Tiempo fin</th><th>Tiempo estimado</th></tr><tbody>";
-            foreach($arrayOrdenes as $orden){
-                $mensaje .= "<tr align='center'>" .
-                "<td>" . $orden->id . "</td>" .
-                "<td>" . $orden->area_orden . "</td>" .
-                "<td>" . $orden->id_pedido. "</td>" .
-                "<td>" . $orden->estado . "</td>" .
-                "<td>" . $orden->descripcion . "</td>" .
-                "<td>" . $orden->tiempo_inicio . "</td>" .
-                "<td>" . $orden->tiempo_fin . "</td>" .
-                "<td>" . $orden->tiempo_estimado . "</td></tr>";
-            }
-            $mensaje .= "</tbody></table>";
-        }
-        return $mensaje;
-    }
-
-    public static function mostrarOrdenTabla($orden){
-        $mensaje = "El objeto envíado por parámetro no es una Orden.";
-        if (is_a($orden, "Orden")){
-            $mensaje = "<h3 align='center'> Lista de Ordenes </h3>";
-            $mensaje .= "<table align='center'><thead><tr><th>ID</th><th>Area Asociada</th><th>ID Pedido</th><th>Estado</th><th>Descripcion</th><th>Tiempo inicio</th><th>Tiempo fin</th><th>Tiempo estimado</th></tr><tbody>";
-            $mensaje .= "<tr align='center'>" .
-            "<td>" . $orden->id . "</td>" .
-            "<td>" . $orden->area_orden . "</td>" .
-            "<td>" . $orden->id_pedido. "</td>" .
-            "<td>" . $orden->estado . "</td>" .
-            "<td>" . $orden->descripcion . "</td>" .
-            "<td>" . $orden->tiempo_inicio . "</td>" .
-            "<td>" . $orden->tiempo_fin . "</td>" .
-            "<td>" . $orden->tiempo_estimado . "</td></tr>";
-            $mensaje .= "</tbody></table>";
-        }
-        return $mensaje;
-    }
-
     public static function filtrarOrdenesTerminadas($lista_ordenes, $estado){
         $lista_filtrada = array();
         foreach($lista_ordenes as $orden){

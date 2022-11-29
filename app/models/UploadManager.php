@@ -1,5 +1,9 @@
 <?php
 require_once 'Pedido.php';
+
+/* 
+    Esta clase fue diseñada por Facu Falcone: https://github.com/caidevOficial. Créditos y agradecimientos. 
+*/
 class UploadManager{
 
     private $_DIR_TO_SAVE;

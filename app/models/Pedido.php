@@ -67,43 +67,6 @@ class Pedido{
         return $mensaje;
     }
 
-    public static function mostrarPedidosConTiempoTabla($arrayPedidos = array()){
-        $mensaje = "Lista vacia.";
-        if (is_array($arrayPedidos) && count($arrayPedidos) > 0){
-            $mensaje = "<h3 align='center'> Lista de Pedidos </h3>";
-            $mensaje .= "<table align='center'><thead><tr><th>ID</th><th>Mesa ID</th><th>Estado Pedido</th><th>Nombre cliente</th><th>Costo</th><th>Foto Pedido</th><th>Tiempo Estimado</th></tr><tbody>";
-            foreach($arrayPedidos as $pedido){
-                $mensaje .= "<tr align='center'>" .
-                "<td>" . $pedido->id . "</td>" .
-                "<td>" . $pedido->mesa_id . "</td>" .
-                "<td>" . $pedido->estado_pedido . "</td>" .
-                "<td>" . $pedido->nombre_cliente . "</td>" .
-                "<td>" . $pedido->costo_pedido . "</td>" .
-                "<td>" . $pedido->foto_pedido . "</td>" .
-                "<td>" . $pedido->tiempo_estimado . " minutos</td></tr>";
-            }
-            $mensaje .= "</tbody></table>";
-        }
-        return $mensaje;
-    }
-
-    public static function mostrarPedidoTabla($pedido){
-        $mensaje = "Lista vacia.";
-        if (is_a($pedido, "Pedido")){
-            $mensaje = "<h3 align='center'> Lista de Pedidos </h3>";
-            $mensaje .= "<table align='center'><thead><tr><th>ID</th><th>Mesa ID</th><th>Estado Pedido</th><th>Nombre cliente</th><th>Costo</th><th>Foto Pedido</th></tr><tbody>";
-            $mensaje .= "<tr align='center'>" .
-            "<td>" . $pedido->id . "</td>" .
-            "<td>" . $pedido->mesa_id . "</td>" .
-            "<td>" . $pedido->estado_pedido . "</td>" .
-            "<td>" . $pedido->nombre_cliente . "</td>" .
-            "<td>" . $pedido->costo_pedido . "</td>" .
-            "<td>" . $pedido->foto_pedido . "</td></tr>";
-            $mensaje .= "</tbody></table>";
-        }
-        return $mensaje;
-    }
-
     public static function obtenerPedidoPorId($pedidoId){
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pedidos WHERE id = :id");

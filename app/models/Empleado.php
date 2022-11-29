@@ -44,46 +44,7 @@ class Empleado{
 
         return $consulta->fetchAll(PDO::FETCH_CLASS, "Empleado");
     }
-
-    public static function mostrarEmpleadosTabla($array_empleados = array()){
-        if (count($array_empleados) <= 0){
-            $array_empleados = self::obtenerTodos();
-        }
-        $mensaje = "Lista vacia.<br>";
-        if (is_array($array_empleados) && count($array_empleados) > 0){
-            $mensaje = "<h3 align='center'> Lista de Empleados </h3>";
-            $mensaje .= "<table align='center'><thead><tr><th>ID</th><th>Usuario ID</th><th>Nombre</th><th>ID Area Trabajo</th><th>Fecha Alta</th><th>Fecha Baja</th></tr><tbody>";
-            foreach($array_empleados as $empleado){
-                $mensaje .= "<tr align='center'>" .
-                "<td>" . $empleado->id . "</td>" .
-                "<td>" . $empleado->usuario_id . "</td>" .
-                "<td>" . $empleado->nombre . "</td>" .
-                "<td>" . $empleado->id_area_empleado . "</td>" .
-                "<td>" . $empleado->fecha_alta . "</td>" .
-                "<td>" . $empleado->fecha_baja . "</td></tr>";
-            }
-            $mensaje .= "</tbody></table>";
-        }
-        return $mensaje;
-    }
-
-    public static function mostrarEmpleadoTabla($empleado){
-        $mensaje = "El objeto enviado por parámetro no es un empleado.";
-        if (is_a($empleado, "Empleado")){
-            $mensaje = "<h3 align='center'> Lista de Empleados </h3>";
-            $mensaje .= "<table align='center'><thead><tr><th>ID</th><th>Usuario ID</th><th>Nombre</th><th>ID Area Trabajo</th><th>Fecha Alta</th><th>Fecha Baja</th></tr><tbody>";
-            $mensaje .= "<tr align='center'>" .
-            "<td>" . $empleado->id . "</td>" .
-            "<td>" . $empleado->usuario_id . "</td>" .
-            "<td>" . $empleado->nombre . "</td>" .
-            "<td>" . $empleado->id_area_empleado . "</td>" .
-            "<td>" . $empleado->fecha_alta . "</td>" .
-            "<td>" . $empleado->fecha_baja . "</td></tr>";
-            $mensaje .= "</tbody></table>";
-        }
-        return $mensaje;
-    }
-
+    
     public static function obtenerEmpleadoPorId($empleadoId){
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM empleados WHERE id = :id");

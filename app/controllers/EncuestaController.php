@@ -17,8 +17,6 @@ class EncuestaController extends Encuesta{
 
             $encuesta = Encuesta::crearEncuesta($id_pedido, $mesa_puntuacion, $restaurante_puntuacion, $mozo_puntuacion, $cocinero_puntuacion, $comentario);
             if(Encuesta::insertarEncuestaDB($encuesta) > 0){
-                echo "<h2>Se ha publicado la encuesta, ¡Vuelva pronto!</h2>";
-                echo Encuesta::mostrarEncuestaTabla($encuesta);
                 $payload = json_encode(array("Encuesta" => $encuesta, "mensaje" => "Se ha publicado la encuesta, ¡Vuelva pronto!"));
             }
         }
@@ -34,7 +32,6 @@ class EncuestaController extends Encuesta{
         if (isset($args["cantidad"])){
             $cantidad = $args["cantidad"];
             $encuestas = Encuesta::obtenerMejoresEncuestas($cantidad);
-            echo Encuesta::mostrarEncuestasTabla($encuestas);
             $payload = json_encode(array("Mejores encuestas" => $encuestas));
         }
 

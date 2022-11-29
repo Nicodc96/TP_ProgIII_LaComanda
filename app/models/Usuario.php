@@ -42,45 +42,6 @@ class Usuario{
         return $objAccesoDatos->obtenerUltimoId();
     }
 
-    public static function mostrarUsuariosTabla($arrayUsuarios = array()){
-        if (count($arrayUsuarios) <= 0){
-            $arrayUsuarios = self::obtenerTodos();
-        }
-        $mensaje = "Lista vacia.<br>";
-        if (is_array($arrayUsuarios) && count($arrayUsuarios) > 0){
-            $mensaje = "<h3 align='center'> Lista de usuarios </h3>";
-            $mensaje .= "<table align='center'><thead><tr><th>ID</th><th>Nombre de Usuario</th><th>Administrador</th><th>Tipo de Usuario</th><th>Estado</th><th>Fecha de Alta</th></tr><tbody>";
-            foreach($arrayUsuarios as $usuario){
-                $mensaje .= "<tr align='center'>" .
-                "<td>" . $usuario->id . "</td>" .
-                "<td>" . $usuario->nombre_usuario . "</td>" .
-                "<td>" . $usuario->esAdmin . "</td>" .
-                "<td>" . $usuario->tipo_usuario . "</td>" .
-                "<td>" . $usuario->estado . "</td>" .
-                "<td>" . $usuario->fecha_alta . "</td></tr>";
-            }
-            $mensaje .= "</tbody></table>";
-        }
-        return $mensaje;
-    }
-
-    public static function mostrarUsuarioTabla($usuario){
-        $mensaje = "El objeto envíado por parámetro no es un usuario.";
-        if (is_a($usuario, "Usuario")){
-            $mensaje = "<h3 align='center'> Lista de usuarios </h3>";
-            $mensaje .= "<table align='center'><thead><tr><th>ID</th><th>Nombre de Usuario</th><th>Administrador</th><th>Tipo de Usuario</th><th>Estado</th><th>Fecha de Alta</th></tr><tbody>";
-            $mensaje .= "<tr align='center'>" .
-            "<td>" . $usuario->id . "</td>" .
-            "<td>" . $usuario->nombre_usuario . "</td>" .
-            "<td>" . $usuario->esAdmin . "</td>" .
-            "<td>" . $usuario->tipo_usuario . "</td>" .
-            "<td>" . $usuario->estado . "</td>" .
-            "<td>" . $usuario->fecha_alta . "</td></tr>";
-            $mensaje .= "</tbody></table>";
-        }
-        return $mensaje;
-    }
-
     public static function obtenerTodos(){
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM usuarios");

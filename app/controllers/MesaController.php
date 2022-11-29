@@ -10,9 +10,7 @@ class MesaController extends Mesa implements IApiUsable{
 
         $mesa = Mesa::crearMesa($params["codigo_mesa"], NULL, $params["estado"]);
         $payload = json_encode(array("mensaje" => "Error al registrar la mesa."));
-
         if (Mesa::insertarMesaDB($mesa) > 0){
-            echo Mesa::mostrarMesaTabla($mesa);
             $payload = json_encode(array("mensaje" => "Mesa registrada con exito."));
         }
   
@@ -22,10 +20,7 @@ class MesaController extends Mesa implements IApiUsable{
     }
 
     public function TraerUno($request, $response, $args){
-        $mesa = Mesa::obtenerMesaPorId($args["id_mesa"]);  
-        if ($mesa){
-            echo Mesa::mostrarMesaTabla($mesa);
-        }
+        $mesa = Mesa::obtenerMesaPorId($args["id_mesa"]);
         $payload = json_encode($mesa);
         
         $response->getBody()->write($payload);
@@ -35,7 +30,6 @@ class MesaController extends Mesa implements IApiUsable{
 
     public function TraerTodos($request, $response, $args){
         $listaMesas = Mesa::obtenerTodos();
-        echo Mesa::mostrarMesasTabla() . "<br>";
         $payload = json_encode(array("lista_de_mesas" => $listaMesas));
 
         $response->getBody()->write($payload);
@@ -69,8 +63,6 @@ class MesaController extends Mesa implements IApiUsable{
                 $mesa = Mesa::obtenerMesaPorId($mesa_id);
                 $mesa->estado = $estado;
                 $mesa->id_empleado = $id_empleado;
-                echo "Mesa a modificar: <br>";
-                echo Mesa::mostrarMesaTabla($mesa);
             } else{
                 echo "Error: uno o mas parametros incorrectos.<br>";
             }
@@ -97,16 +89,9 @@ class MesaController extends Mesa implements IApiUsable{
             $mesa = Mesa::obtenerMesaPorId($id_mesa);
             $pedido = Pedido::obtenerPedidoPorIdMesa($id_mesa);
 
-            echo "Mesa a cobrar: <br>";
-            echo Mesa::mostrarMesaTabla($mesa);
-
             if (isset($mesa) && isset($pedido)){
                 $mesa->estado = $estado_mesa;
                 $pedido->estado_pedido = "Entregado";
-                echo "Mesa actualizada: <br>";
-                echo Mesa::mostrarMesaTabla($mesa);
-                echo "<br>Pedido actualizado: <br>";
-                echo Pedido::mostrarPedidoTabla($pedido);
                 if (Mesa::actualizarEstadoMesa($mesa, $estado_mesa) && Pedido::actualizarEstadoPedido($pedido) > 0){
                     $payload = json_encode(array("mensaje" => "Se ha actualizado la mesa y el pedido correctamente."));
                 }
@@ -120,45 +105,32 @@ class MesaController extends Mesa implements IApiUsable{
 
     public function ModificarUnoAdmin($request, $response, $args){
         $params = $request->getParsedBody();        
-        $payload = json_encode(array("error" => "No se ha podido modificar la mesa solicitada."));
+        $payload = json_encode(array("error" => "No se ha podido modificar la mesa solicitada. Parámetros incorrectos."));
         
         if (isset($params["id_mesa"]) && isset($params["estado"])) {
             $id_mesa = $params["id_mesa"];
             $estado_mesa = $params["estado"];
             $mesa = Mesa::obtenerMesaPorId($id_mesa);
-            
-            echo "Mesa seleccionada: <br>";
-            echo Mesa::mostrarMesaTabla($mesa);
 
             if(strcmp($mesa->estado, "Cerrada") == 0 && strcmp($estado_mesa, "Cerrada") == 0){
-                echo "<h2>La mesa ya se encuentra cerrada!</h2><br>";
+                $payload = json_encode(array("mensaje" => "La mesa solicitada ya se encuentra cerrada."));
             } else{
                 $mesa->estado = $estado_mesa;
-                echo "El estado de la mesa se ha actualizado: <br>";
-                echo Mesa::mostrarMesaTabla($mesa);
                 if (Mesa::actualizarEstadoMesa($mesa, $estado_mesa) > 0){
-                    $payload = json_encode(array("mensaje" => "El estado de la mesa se actualizo correctamente"));
+                    $payload = json_encode(array("mensaje" => "El estado de la mesa se ha actualizado correctamente"));
                 }
             }
-        } else{
-            echo "<h2>Error: uno o mas parametros incorrectos.</h2><br>";
         }
         $response->getBody()->write($payload);
         return $response
-        ->withHeader("Content-Type", "application/json");
+        ->withHeader("Content-Type", "application/json;charset=utf-8");
     }
 
     public function TraerDemoraPedidoMesa($request, $response, $args){
         $codigo_mesa = $args["codigo_mesa"];
         $id_pedido = $args["pedido_id"];
         $tiempo_restante = Pedido::obtenerTiempoMaximoPedidoPorCodigoMesa($id_pedido, $codigo_mesa)[0]["tiempo_estimado"];
-        if ($tiempo_restante == 0){
-            echo "<h2>Mesa de codigo: " . $codigo_mesa . "<br>Tiempo restante: ". $tiempo_restante . " minutos.<br>
-            Su pedido esta listo, pronto llegara a su mesa. ¡Gracias por elegirnos!</h2><br>";
-        } else{
-            echo "<h2>Mesa de codigo: " . $codigo_mesa . "<br>Tiempo restante: ". $tiempo_restante . " minutos.</h2><br>";
-        }
-
+        
         $payload = json_encode(array("mensaje" => "Tiempo restante: ". $tiempo_restante . " minutos."));
         $response->getBody()->write($payload);
         return $response

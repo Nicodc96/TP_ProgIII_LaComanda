@@ -1,15 +1,15 @@
-Aplicación Slim Framework 4 PHP con despliegue automático en Heroku.
-==============================
+Aplicación Slim Framework v4.10 PHP - La comanda
+===================================
 
 ## Introducción
-El principal objetivo de este repo es poder desplegar de forma automática nuestra aplicación PHP Slim Framework 4 en Heroku.
+El principal objetivo de este repositorio es para la entrega del trabajo práctico integrador de la cursada.
 
 ## 1- Forkear proyecto
 Como primer paso, forkeamos este proyecto desde el boton ubicado en la parte superior derecha de la pagina del repositorio.
 
 ## 2- Subimos nuestro código (opcional si agregan código)
 Una vez forkeado, clonamos el repo con `git clone <url del repo>` y agregamos nuestro codigo PHP (SLIM Framework) dentro de la carpeta `/app/`.
-Luego comiteamos y pusheamos los cambios.
+Luego realizamos un 'commit' y hacemos un 'push' los cambios.
 
 ```sh
 git add .
@@ -18,6 +18,7 @@ git push -u origin main
 ```
 
 ## 3- Crear y configurar la App en Heroku
+## ATENCION: ¡Heroku ha dejado de ser gratuito! Buscar alternativas (Ej: Railway)
 
 Nos dirigimos a la página de Heroku https://heroku.com/, iniciamos sesión si tenemos cuenta o creamos una.
 
@@ -159,7 +160,7 @@ MYSQL_PASS=1234 (campo "Password" de los datos que guardamos al crear la base en
 MYSQL_DB=elcNx8VTCx (campo "Database Name" de los datos que guardamos al crear la base en remotemysql.com)
 ```
 
-## Ayuda
-Cualquier duda o consulta por el canal de slack
+## Alumno
+Diaz, Lautaro Nicolás. 3°D, 2C2022
 
 ### 2022 - UTN FRA

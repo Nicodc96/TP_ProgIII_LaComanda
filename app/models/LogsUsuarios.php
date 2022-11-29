@@ -49,23 +49,6 @@ class LogsUsuarios{
         return $consulta->fetchAll(PDO::FETCH_CLASS, "LogsUsuarios");
     }
 
-    public static function mostrarLogsUsuariosTabla($array_logsUsuarios = array()){
-        $mensaje = "Lista vacia.<br>";
-        if (is_array($array_logsUsuarios) && count($array_logsUsuarios) > 0){
-            $mensaje = "<h3 align='center'> Historial de login de Usuarios </h3>";
-            $mensaje .= "<table align='center'><thead><tr><th>ID</th><th>Usuario ID</th><th>Nombre de Usuario</th><th>Fecha de Login</th></tr><tbody>";
-            foreach($array_logsUsuarios as $log_individual){
-                $mensaje .= "<tr align='center'>" .
-                "<td>" . $log_individual->id . "</td>" .
-                "<td>" . $log_individual->usuario_id . "</td>" .
-                "<td>" . $log_individual->nombre_usuario . "</td>" .
-                "<td>" . $log_individual->fecha_login . "</td></tr>";
-            }
-            $mensaje .= "</tbody></table>";
-        }
-        return $mensaje;
-    }
-
     public static function leerArchivoCSV($archivo_nombre = "./Logs/historial_loginUsuarios.csv"){
         $archivo = fopen($archivo_nombre, "r");
         $array = array();

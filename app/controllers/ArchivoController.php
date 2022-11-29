@@ -21,7 +21,6 @@ class ArchivoController extends LogsUsuarios{
         $payload = json_encode(array("error" => "El archivo no se ha podido guardar", "Registro de logins" => "Error en escritura"));
         if(LogsUsuarios::escribirArchivoCSV($logs_db, $nombre_archivo)){
             echo "Archivo salvado en: " . $nombre_archivo;
-            echo LogsUsuarios::mostrarLogsUsuariosTabla($logs_db);
             $payload = json_encode(array("mensaje" => "Archivo guardado como: historial_loginUsuarios.csv ", "Registro de logins" => $logs_db));
         }
 
