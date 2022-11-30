@@ -3,7 +3,7 @@ Programación III - División 3°D - TP "La comanda"
 <div align="center"><img src="https://i.ibb.co/XWTqXZ8/logoutn.png" alt="logoUTN"></div>
 
 ## Información
-Aquí alojo el segundo parcial realizado durante mi cursada en la materia `Laboratorio de Computación III`, año 2022.
+Aquí alojo el segundo parcial realizado durante mi cursada en la materia `Programación III`, año 2022.
 
 ### Datos personales
 * **Nombre**: Lautaro N. Díaz
